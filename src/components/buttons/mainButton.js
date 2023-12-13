@@ -9,7 +9,7 @@ flex-shrink: 0;
 border-radius: 11px;
 justify-content: center;
 align-items: center;
-background-color: ${config.colors.primary};
+background-color: ${config.colors.red};
 `;
 
 const TextButton = styled.Text`
