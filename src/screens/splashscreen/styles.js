@@ -4,8 +4,8 @@ import config from '../../../assets/config.json'
 
 
 export const Container = styled.SafeAreaView`
-background-color: ${config.colors.red};
-height: 700px;
+
+padding: 20px;
 
 `;
 
