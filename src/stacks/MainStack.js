@@ -16,10 +16,26 @@ export default () => (
             headerShown: false,
         }}>
         <Stack.Screen name="Splashscreen" component={Splashscreen} />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Redefinir" component={Redefinir} />
-        <Stack.Screen name="Recuperar" component={Recuperar} />
-        <Stack.Screen name="Registar" component={Registar} />
+        <Stack.Screen name="Login" component={Login}  
+            options={{
+                header: () => ( {/* Aqui dentro tu coloca o que quiser pro header, mané! */} )                    
+            }}        
+            />
+        <Stack.Screen name="Redefinir" component={Redefinir} 
+            options={{
+                header: () => ( {/* Aqui dentro tu coloca o que quiser pro header, mané! */} )                    
+            }}   
+        />
+        <Stack.Screen name="Recuperar" component={Recuperar} 
+            options={{
+                header: () => ( {/* Aqui dentro tu coloca o que quiser pro header, mané! */} )                    
+            }}        
+        />
+        <Stack.Screen name="Registar" component={Registar} 
+            options={{
+                header: () => ( {/* Aqui dentro tu coloca o que quiser pro header, mané! */} )                    
+            }}        
+        />
 
     </Stack.Navigator>
 );
