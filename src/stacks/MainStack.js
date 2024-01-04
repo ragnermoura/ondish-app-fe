@@ -18,7 +18,9 @@ export default () => (
         <Stack.Screen name="Splashscreen" component={Splashscreen} />
         <Stack.Screen name="Login" component={Login}  
             options={{
-                header: () => ( {/* Aqui dentro tu coloca o que quiser pro header, mané! */} )                    
+                header: () => ( 
+                    <Header title={"login"}/>
+                 )                    
             }}        
             />
         <Stack.Screen name="Redefinir" component={Redefinir} 
