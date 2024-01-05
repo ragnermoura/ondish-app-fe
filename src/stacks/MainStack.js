@@ -1,6 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-
+import Header from '../components/header/headerAuth';
 import Splashscreen from "../screens/splashscreen/splashscreen";
 import Login from "../screens/auth/login";
 import Redefinir from "../screens/auth/redefinir";
@@ -13,24 +13,33 @@ export default () => (
     <Stack.Navigator
         initialRouteName="Splashscreen"
         screenOptions={{
-            headerShown: false,
+            headerShown: true,
         }}>
-        <Stack.Screen name="Splashscreen" component={Splashscreen} />
-        <Stack.Screen name="Login" component={Login}  
+        <Stack.Screen name="Splashscreen" component={Splashscreen} 
             options={{
-                header: () => ( 
-                    <Header title={"login"}/>
-                 )                    
+                headerShown: false,
+            }}
+        />
+        <Stack.Screen name="Login" component={Login}  
+        
+            options={{
+                header: () =>  
+                    <Header title={"Login"}/>,
+                                     
             }}        
             />
         <Stack.Screen name="Redefinir" component={Redefinir} 
             options={{
-                header: () => ( {/* Aqui dentro tu coloca o que quiser pro header, mané! */} )                    
+                header: () =>  
+                    <Header title={"Redefinir"}/>,
+                                     
             }}   
         />
         <Stack.Screen name="Recuperar" component={Recuperar} 
             options={{
-                header: () => ( {/* Aqui dentro tu coloca o que quiser pro header, mané! */} )                    
+                header: () =>  
+                    <Header title={"Recuperar senha"}/>,
+                                     
             }}        
         />
         <Stack.Screen name="Registar" component={Registar} 

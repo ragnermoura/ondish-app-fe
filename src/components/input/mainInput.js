@@ -54,8 +54,8 @@ export default ({ placeholder, value, onChangeText, isPassword }) => {
         if (isPassword) {
             return (
                 <EyeIcon
-                    width="24"
-                    height="24"
+                    width="20"
+                    height="20"
                     fill="#444"
                     onPress={togglePasswordVisiblity}
                 />

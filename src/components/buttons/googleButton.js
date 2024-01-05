@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import config from '../../../assets/config.json'
+import config from '../../../assets/config.json';
+import IconGoogle from '../../../assets/icons/iconGoogle.svg';
+import { View } from "react-native";
 
 const ButtonArea = styled.TouchableOpacity`
 width: 100%;
@@ -9,9 +11,8 @@ flex-shrink: 0;
 border-radius: 11px;
 justify-content: center;
 align-items: center;
-background-color: ${config.colors.red};
+background-color: ${config.colors.google};
 margin-bottom: 20px;
-
 `;
 
 const TextButton = styled.Text`
@@ -25,10 +26,20 @@ letter-spacing: 0.8px;
 text-transform: uppercase;
 `;
 
+const IconArea = styled.View`
+position: absolute;
+left: 5%;
+z-index: 2;
+`;
+
 export default ({text}) => {
     return (
         <ButtonArea>
-            <TextButton>{text}</TextButton>
+          <IconArea>
+          <IconGoogle width={30} height={30} fill={config.colors.whrite} />
+          </IconArea>
+          <TextButton>{text}</TextButton>
+          
         </ButtonArea>
     );
 }
