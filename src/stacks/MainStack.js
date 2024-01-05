@@ -2,6 +2,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import Header from '../components/header/headerAuth';
 import Splashscreen from "../screens/splashscreen/splashscreen";
+import Welcome from "../screens/auth/welcome";
 import Login from "../screens/auth/login";
 import Redefinir from "../screens/auth/redefinir";
 import Recuperar from "../screens/auth/recuperar";
@@ -28,6 +29,14 @@ export default () => (
                                      
             }}        
             />
+        <Stack.Screen name="Welcome" component={Welcome}  
+        
+            options={{
+                header: () =>  
+                    <Header title={"Welcome"}/>,
+                                     
+            }}        
+            />
         <Stack.Screen name="Redefinir" component={Redefinir} 
             options={{
                 header: () =>  
@@ -44,7 +53,8 @@ export default () => (
         />
         <Stack.Screen name="Registar" component={Registar} 
             options={{
-                header: () => ( {/* Aqui dentro tu coloca o que quiser pro header, mané! */} )                    
+                header: () => 
+                    <Header title={"Registar"}/>,                   
             }}        
         />
 

@@ -4,7 +4,8 @@ import config from '../../../assets/config.json';
 
 
 export const Container = styled.SafeAreaView`
-  padding: 20px;
+  box-sizing: border-box;
+  padding: 5%;
 `;
 
 export const Title = styled.Text`

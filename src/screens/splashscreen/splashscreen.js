@@ -1,35 +1,37 @@
 import React, { useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Container} from './styles';
+import { Container, Logo, LoadingIcon} from './styles';
 
 
 export default () => {
   const navigation = useNavigation();
 
-  useEffect(() => {
-    const checkToken = async () => {
-      try {
-        const token = await AsyncStorage.getItem('token');
-        if (token) {
-          navigation.reset({
-            routes: [{ name: 'Splashscreen' }]
-          });
-        } else {
-          navigation.reset({
-            routes: [{ name: 'Login' }]
-          });
-        }
-      } catch (error) {
-        console.error("Erro ao buscar o token", error);
-      }
-    };
+   useEffect(() => {
+     const checkToken = async () => {
+       try {
+         const token = await AsyncStorage.getItem('token');
+         if (token) {
+           navigation.reset({
+             routes: [{ name: 'Splashscreen' }]
+           });
+         } else {
+           navigation.reset({
+             routes: [{ name: 'Welcome' }]
+           });
+         }
+       } catch (error) {
+         console.error("Erro ao buscar o token", error);
+       }
+     };
 
-    checkToken();
-  }, []);
+     checkToken();
+   }, []);
 
   return (
     <Container>
+      <Logo />
+      <LoadingIcon size="large" color="red" />
     </Container>
   );
 };
