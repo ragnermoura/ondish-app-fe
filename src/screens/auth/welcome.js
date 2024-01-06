@@ -45,6 +45,13 @@ export default () => {
   const navigation = useNavigation();
 
 
+  const handleGo = () => {
+    navigation.reset({
+      routes: [{ name: 'Login' }],
+    });
+  };
+
+
   return (
   <Container>
     <BoxRounded/>
@@ -54,7 +61,7 @@ export default () => {
     É um prazer conhecer-te. Estamos felizes por estares aqui, então vamos começar!
     </Text>
 
-    <AreaBotao><Botao/></AreaBotao>    
+    <AreaBotao onPress={handleGo}><Botao/></AreaBotao>    
   </Container>
   );
 };

@@ -1,15 +1,21 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import { Container, Title, Subtext, InputArea, InputPassword, Linked } from "./styles";
+import { Container, Title, Subtext, InputArea, InputPassword, Linked, TextSimple, TextSub } from "./styles";
 import SigInput from '../../components/input/mainInput';
 import Btn from '../../components/buttons/mainButton';
 import BtnFB from '../../components/buttons/faceButton';
 import BtnGoogle from '../../components/buttons/googleButton';
-import { Text } from "react-native";
 
 
 export default () => {
   const navigation = useNavigation();
+
+  const handleRegister = () => {
+    navigation.reset({
+      routes: [{ name: 'Registar' }],
+    });
+  };
+
 
   const [emailField, setEmailField] = useState('');
   const [passwordField, setPasswordField] = useState('');
@@ -19,7 +25,7 @@ export default () => {
 
     <Title>Ondish</Title>
     <Subtext>
-      Digite seu número de telefone ou e-mail para entrar ou <Linked>Criar nova conta</Linked>
+      Digite seu número de telefone ou e-mail para entrar ou <Linked onPress={handleRegister}>Criar nova conta</Linked>
     </Subtext>
     
 
@@ -40,12 +46,12 @@ export default () => {
         />
       </InputPassword>
 
-      <Text style={{color: '#010F07', textAlign: 'center', fontSize: 12, fontWeight: 'bold', marginBottom: 20, marginTop: 20}} >
+      <TextSimple>
         Esqueceste a palavra-passe?
-      </Text>
+      </TextSimple>
 
       <Btn text={"Entrar"} />
-      <Text style={{color: '#010F07', textAlign: 'center', fontSize: 16, marginBottom: 20}}>Ou</Text>
+      <TextSub>Ou</TextSub>
       <BtnFB text={"Continuar com Facebook"} />
       <BtnGoogle text={"Continuar com Google"} />
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
+import {useNavigation} from '@react-navigation/native';
 import config from '../../../assets/config.json';
 import BackIcon from '../../../assets/icons/iconBack.svg'
 
@@ -35,9 +36,16 @@ width: 100%;
 `;
 
 export default ({title}) => {
+
+  const navigation = useNavigation();
+
+    const handleBack = () => {
+    navigation.goBack();
+  };
+  
     return (
         <HeaderArea>
-          <ButtomArea>
+          <ButtomArea onPress={handleBack}>
             <BackIcon/>
           </ButtomArea>
           <TitleArea>

@@ -32,9 +32,7 @@ export default () => (
         <Stack.Screen name="Welcome" component={Welcome}  
         
             options={{
-                header: () =>  
-                    <Header title={"Welcome"}/>,
-                                     
+                headerShown: false,                  
             }}        
             />
         <Stack.Screen name="Redefinir" component={Redefinir} 
