@@ -20,6 +20,11 @@ export const Subtext = styled.Text`
   color: #868686;
   max-width: 80%;
   margin-bottom: 20px;
+  align-items: center;
+`;
+export const SpanText = styled.Text`
+  font-size: 16px;
+  color: ${config.colors.red};
 `;
 
 export const TextSimple = styled.Text`
@@ -39,7 +44,6 @@ export const TextSub = styled.Text`
 `;
 
 export const Linked = styled.TouchableOpacity`
-  color: ${config.colors.red};
 `;
 
 export const InputArea = styled.View`

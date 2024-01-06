@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import { Text } from "react-native";
+import { View, Text } from "react-native";
 import styled from 'styled-components/native';
 import LogoImage from '../../../assets/images/logo.svg';
 import BtnImage from '../../../assets/icons/botao.svg';
@@ -22,7 +22,7 @@ top: -30%;
 
 export const Logo = styled(LogoImage)`
 align-self: center;
-margin-top: 10%;
+margin-top: 20%;
 margin-bottom: 100px;
 `;
 
@@ -54,8 +54,10 @@ export default () => {
 
   return (
   <Container>
+    <View style={{marginTop: 50}}>
     <BoxRounded/>
     <Logo/>
+    </View>
     <Title>Bem-Vindo</Title>
     <Text style={{color: '#3a3a3a', textAlign: 'center', fontSize: 17, marginBottom: 20}}>
     É um prazer conhecer-te. Estamos felizes por estares aqui, então vamos começar!

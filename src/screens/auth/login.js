@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import { Container, Title, Subtext, InputArea, InputPassword, Linked, TextSimple, TextSub } from "./styles";
+import { Container, Title, Subtext, InputArea, InputPassword, Linked, TextSimple, TextSub, SpanText } from "./styles";
 import SigInput from '../../components/input/mainInput';
 import Btn from '../../components/buttons/mainButton';
 import BtnFB from '../../components/buttons/faceButton';
@@ -25,7 +25,10 @@ export default () => {
 
     <Title>Ondish</Title>
     <Subtext>
-      Digite seu número de telefone ou e-mail para entrar ou <Linked onPress={handleRegister}>Criar nova conta</Linked>
+      Digite seu número de telefone ou e-mail para entrar ou 
+      <Linked onPress={handleRegister}>
+        <SpanText>Criar nova conta</SpanText>
+      </Linked>
     </Subtext>
     
 
