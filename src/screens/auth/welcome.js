@@ -54,7 +54,7 @@ export default () => {
 
   return (
   <Container>
-    <View style={{marginTop: 50}}>
+    <View style={{marginTop: 30}}>
     <BoxRounded/>
     <Logo/>
     </View>

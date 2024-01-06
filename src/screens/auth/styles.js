@@ -3,8 +3,9 @@ import styled from "styled-components/native";
 import config from "../../../assets/config.json";
 
 export const Container = styled.SafeAreaView`
-  box-sizing: border-box;
-  padding: 5%;
+  margin: 5%;
+ 
+  margin-top: 2%;
 `;
 
 export const Title = styled.Text`
@@ -43,8 +44,9 @@ export const TextSub = styled.Text`
   margin-bottom: 20px;
 `;
 
-export const Linked = styled.TouchableOpacity`
-`;
+export const Linked = styled.TouchableOpacity``;
+
+export const ViewClick = styled.TouchableOpacity``;
 
 export const InputArea = styled.View`
   margin-top: 2%;

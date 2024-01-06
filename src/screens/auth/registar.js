@@ -26,7 +26,7 @@ export default () => {
     <Subtext>
     Digite seu nome, e-mail e senha para se inscrever. 
       <Linked onPress={handleRegister}>
-        <SpanText>Ja tem uma conta?</SpanText>
+        <SpanText> Ja tem uma conta?</SpanText>
       </Linked>
     </Subtext>
     

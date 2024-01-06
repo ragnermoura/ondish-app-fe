@@ -39,10 +39,13 @@ export default ({title}) => {
 
   const navigation = useNavigation();
 
-    const handleBack = () => {
-    navigation.goBack();
+  const handleBack = () => {
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    } else {
+      navigation.navigate('Login');
+    }
   };
-  
     return (
         <HeaderArea>
           <ButtomArea onPress={handleBack}>
