@@ -5,32 +5,36 @@ import Location from '../../../assets/icons/iconLocation.svg'
 
 const ButtonArea = styled.TouchableOpacity`
 flex-direction: row;
+margin: 25%;
 width: 100%;
-height: 50px;
+height: 65px;
 flex-shrink: 0;
 border-radius: 11px;
 justify-content: center;
+text-align: center;
 align-items: center;
 background-color: ${config.colors.whrite};
-border: 1px;
-border-color: ${config.colors.primary};
+border: 2px;
+margin-top: 35%;
+border-color: ${config.colors.red};
+
 `;
 
 const TextButton = styled.Text`
-color: ${config.colors.primary};
-text-align: center;
+color: ${config.colors.red};
 font-size: 16px;
 font-style: normal;
-font-weight: 400;
+font-weight: 500;
 line-height: 24px; /* 150% */
 letter-spacing: -0.4px;
+
 `;
 
 export default ({text}) => {
     return (
         <ButtonArea>
-           <Location/>
-            <TextButton>{text}</TextButton>
+            <Location/>
+            <TextButton> {text}</TextButton>
         </ButtonArea>
     );
 }

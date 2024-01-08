@@ -7,8 +7,7 @@ import Login from "../screens/auth/login";
 import Redefinir from "../screens/auth/redefinir";
 import Recuperar from "../screens/auth/recuperar";
 import Registar from "../screens/auth/registar";
-import Localizar from "../screens/auth/location";
-import Endereco from "../screens/auth/endereco";
+import Endereco from "../screens/location/endereco";
 
 const Stack = createStackNavigator();
 
@@ -58,13 +57,7 @@ export default () => (
             }}        
         />
 
-        <Stack.Screen name="Localizar" component={Localizar} 
-            options={{
-                header: () => 
-                    <Header title={"Perto de você"}/>,                   
-            }}        
-        />
-
+     
         <Stack.Screen name="Endereco" component={Endereco} 
             options={{
                 header: () => 
