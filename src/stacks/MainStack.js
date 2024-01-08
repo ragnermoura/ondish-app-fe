@@ -65,7 +65,7 @@ export default () => (
             }}        
         />
 
-        <Stack.Screen name="Endereço" component={Endereco} 
+        <Stack.Screen name="Endereco" component={Endereco} 
             options={{
                 header: () => 
                     <Header title={"Localização"}/>,                   
