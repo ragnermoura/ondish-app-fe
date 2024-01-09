@@ -9,17 +9,23 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#ffffff",
+      "permissions":["LOCATION"]
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Precisamos da sua localização para encontrar restaurantes próximos a você",
+        "NSLocationAlwaysUsageDescription": "Gostaríamos de acessar sua localização para mantê-lo atualizado sobre os restaurantes ao seu redor"
+      },
       "userInterfaceStyle": "light",
       "backgroundColor": "#FFFFFF",
       "supportsTablet": true
     },
     "android": {
+      "permissions": ["ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
