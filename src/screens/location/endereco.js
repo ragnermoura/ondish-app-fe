@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import * as Location from 'expo-location';
 import {
   Container,
   Title,
@@ -32,7 +31,8 @@ export default () => {
       },
       (error) => {
         console.error("Erro ao obter a localização: ", error);
-      }
+      },
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
   };
 
