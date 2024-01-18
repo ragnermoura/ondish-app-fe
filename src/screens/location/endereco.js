@@ -1,54 +1,63 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import * as Location from 'expo-location';
 import {
   Container,
   Title,
   Subtitle,
-  TextContainer,
-  BtnContainer,
   InputAreaView,
+  ButtonArea,
+  TextButton
 } from "./styles";
 
-import ButtonLocation from "../../components/buttons/secondaryButton";
+import LocationIcon from "../../../assets/icons/iconLocation.svg";
 import InputEndereco from "../../components/input/defaultInput";
 
 
 export default () => {
   const [locationField, setLocationField] = useState("");
+  
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
 
-  const obterLocalizacao = async () => {
-    console.log("chamando a função obterLocalizacao...");
-  
-    let { status } = await Location.requestPermissionsAsync();
-    if (status !== 'granted') {
-      console.error('Permissão de acesso à localização negada!');
-      return;
-    }
-  
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        console.log("Latitude: ", position.coords.latitude);
-        console.log("Longitude: ", position.coords.longitude);
-      },
-      (error) => {
-        console.error("Erro ao obter a localização: ", error);
-      },
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-    );
+  useEffect(() => {
+    (async () => {
+      
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    })();
+  }, []);
+
+
+  const handleLocation = async () => {
+    
+    let text = 'Waiting..';
+  if (errorMsg) {
+    text = errorMsg;
+    console.log(text)
+  } else if (location) {
+    text = JSON.stringify(location);
+    console.log(text)
+  }
   };
 
   return (
     <Container>
-      <TextContainer>
         <Title>Encontre restaurantes perto de você</Title>
         <Subtitle>
           Por favor, insira a sua localização ou permita o acesso à sua
           localização para encontrar restaurantes perto de si
         </Subtitle>
-      </TextContainer>
-      <BtnContainer>
-        <ButtonLocation text={"Usar localização atual"} onPress={obterLocalizacao} />
-        {/* A propriedade onPress agora está associada à função obterLocalizacao */}
-      </BtnContainer>
+        <ButtonArea onPress={handleLocation}>
+            <LocationIcon/>
+            <TextButton> Usar localização atual </TextButton>
+        </ButtonArea>
+      
       <InputAreaView>
         <InputEndereco
           placeholder="Inserir um novo endereço"
