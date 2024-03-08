@@ -44,7 +44,8 @@ export const TextSub = styled.Text`
   margin-bottom: 20px;
 `;
 
-export const Linked = styled.TouchableOpacity``;
+export const Linked = styled.TouchableOpacity`
+`;
 
 export const ViewClick = styled.TouchableOpacity``;
 
@@ -53,6 +54,9 @@ export const InputArea = styled.View`
 `;
 
 export const InputPassword = styled.View`
+  margin-top: 9px;
+`;
+export const InputSimple = styled.View`
   margin-top: 9px;
 `;
 

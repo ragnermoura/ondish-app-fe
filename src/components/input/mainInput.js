@@ -4,6 +4,7 @@ import config from '../../../assets/config.json'
 
 import Eye from '../../../assets/icons/iconEye.svg'
 import Phone from '../../../assets/icons/iconPhone.svg'
+import Email from '../../../assets/icons/iconEmail.svg'
 
 const InputArea = styled.View`
 width: 100%;
@@ -37,7 +38,12 @@ const PhoneIcon = styled(Phone)`
   
 `;
 
-export default ({ placeholder, value, onChangeText, isPassword }) => {
+const EmailIcon = styled(Email)`
+  padding-left: 60px;
+  
+`;
+
+export default ({ placeholder, value, onChangeText, isPassword, isEmail, isPhone }) => {
     const [password, setPassword] = useState(true);
     const togglePasswordVisiblity = () => {
         setPassword(password ? false : true);
@@ -54,20 +60,28 @@ export default ({ placeholder, value, onChangeText, isPassword }) => {
         if (isPassword) {
             return (
                 <EyeIcon
-                    width="20"
-                    height="20"
+                    width="15"
+                    height="15"
                     fill="#444"
                     onPress={togglePasswordVisiblity}
                 />
             );
-        } else {
+        } else if (isEmail) {
+            return (
+                <EmailIcon
+                    width="15"
+                    height="15"
+                />
+            );
+        } else if (isPhone) {
             return (
                 <PhoneIcon
-                    width="24"
-                    height="24"
-                />
-            )
-
+                width="24"
+                height="24"
+            />
+            );
+        }else {
+            return null;
         }
     };
 

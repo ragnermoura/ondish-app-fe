@@ -17,52 +17,52 @@ export default () => (
         screenOptions={{
             headerShown: true,
         }}>
-        <Stack.Screen name="Splashscreen" component={Splashscreen} 
+        <Stack.Screen name="Splashscreen" component={Splashscreen}
             options={{
                 headerShown: false,
-            }}
+            }}
         />
-        <Stack.Screen name="Login" component={Login}  
-        
+        <Stack.Screen name="Login" component={Login}
+
             options={{
-                header: () =>  
-                    <Header title={"Login"}/>,
-                                     
-            }}        
-            />
-        <Stack.Screen name="Welcome" component={Welcome}  
-        
-            options={{
-                headerShown: false,                  
-            }}        
-            />
-        <Stack.Screen name="Redefinir" component={Redefinir} 
-            options={{
-                header: () =>  
-                    <Header title={"Redefinir"}/>,
-                                     
-            }}   
+                header: () =>
+                    <Header title={"Login"} />,
+
+            }}
         />
-        <Stack.Screen name="Recuperar" component={Recuperar} 
+        <Stack.Screen name="Welcome" component={Welcome}
+
             options={{
-                header: () =>  
-                    <Header title={"Recuperar senha"}/>,
-                                     
-            }}        
+                headerShown: false,
+            }}
         />
-        <Stack.Screen name="Registar" component={Registar} 
+        <Stack.Screen name="Redefinir" component={Redefinir}
             options={{
-                header: () => 
-                    <Header title={"Registar"}/>,                   
-            }}        
+                header: () =>
+                    <Header title={"Redefinir"} />,
+
+            }}
+        />
+        <Stack.Screen name="Recuperar" component={Recuperar}
+            options={{
+                header: () =>
+                    <Header title={"Recuperar senha"} />,
+
+            }}
+        />
+        <Stack.Screen name="Registar" component={Registar}
+            options={{
+                header: () =>
+                    <Header title={"Registar"} />,
+            }}
         />
 
-     
-        <Stack.Screen name="Endereco" component={Endereco} 
+
+        <Stack.Screen name="Endereco" component={Endereco}
             options={{
-                header: () => 
-                    <Header title={"Localização"}/>,                   
-            }}        
+                header: () =>
+                    <Header title={"Localização"} />,
+            }}
         />
 
     </Stack.Navigator>

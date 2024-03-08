@@ -25,10 +25,23 @@ letter-spacing: 0.8px;
 text-transform: uppercase;
 `;
 
-export default ({text}) => {
-    return (
-        <ButtonArea>
-            <TextButton>{text}</TextButton>
-        </ButtonArea>
-    );
+const LoadingIcon = styled.ActivityIndicator`
+`;
+
+export default ({ text, onPress, isLoading }) => {
+
+    if (isLoading) {
+        return (
+            <ButtonArea>
+                <LoadingIcon size="small" color="#fff" />
+            </ButtonArea>
+        );
+    } else {
+        return (
+            <ButtonArea onPress={onPress}>
+                <TextButton>{text}</TextButton>
+            </ButtonArea>
+        );
+    }
+
 }

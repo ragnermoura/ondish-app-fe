@@ -16,9 +16,39 @@ import SigInput from "../../components/input/mainInput";
 import Btn from "../../components/buttons/mainButton";
 import BtnFB from "../../components/buttons/faceButton";
 import BtnGoogle from "../../components/buttons/googleButton";
+import api from "../../../services/auth/index";
 
 export default () => {
   const navigation = useNavigation();
+  const [emailField, setEmailField] = useState("");
+  const [passwordField, setPasswordField] = useState("");
+
+  const handleEntrar = () => {
+    if(emailField === "" || passwordField === ""){
+      alert("Erro", "Preencha todos os campos");
+    }else{
+
+      api.login(emailField, passwordField).then((res) => {
+        if (res) {
+          if (res.data) {
+            if (res.data.status === "success") {
+              alert("Sucesso", "Login efetuado com sucesso");
+              navigation.reset({
+                routes: [{ name: "MainTab" }],
+              });
+            } else {
+              alert("Erro", res.data.message);
+            }
+          } else {
+            alert("Erro", res.message);
+          }
+        } else {
+          alert("Erro", "Erro ao efetuar login");
+        }
+      });
+
+    }
+  };
 
   const handleRegister = () => {
     navigation.reset({
@@ -33,8 +63,9 @@ export default () => {
     });
   };
 
-  const [emailField, setEmailField] = useState("");
-  const [passwordField, setPasswordField] = useState("");
+  
+
+
 
   return (
     <Container>
@@ -51,7 +82,7 @@ export default () => {
           placeholder="Escreva o seu e-mail"
           value={emailField}
           onChangeText={(t) => setEmailField(t)}
-          isPassword={false}
+          isEmail={true}
         />
 
         <InputPassword>
@@ -67,7 +98,7 @@ export default () => {
         <TextSimple>Esqueceste a palavra-passe?</TextSimple>
         </ViewClick>
 
-        <Btn text={"Entrar"} />
+        <Btn text={"Entrar"} onPress={handleEntrar} />
         <TextSub>Ou</TextSub>
         <BtnFB text={"Continuar com Facebook"} />
         <BtnGoogle text={"Continuar com Google"} />
