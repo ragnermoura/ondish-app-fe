@@ -17,7 +17,7 @@ export default () => {
            });
          } else {
            navigation.reset({
-             routes: [{ name: 'Endereco' }] //mudar para Welcome
+             routes: [{ name: 'Welcome' }]
            });
          }
        } catch (error) {
