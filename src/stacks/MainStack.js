@@ -8,6 +8,8 @@ import Redefinir from "../screens/auth/redefinir";
 import Recuperar from "../screens/auth/recuperar";
 import Registar from "../screens/auth/registar";
 import Endereco from "../screens/location/endereco";
+import Verificar from "../screens/auth/verificar";
+import AddNum from "../screens/auth/adicionarNumero";
 
 const Stack = createStackNavigator();
 
@@ -63,6 +65,20 @@ export default () => (
                 header: () =>
                     <Header title={"Localização"} />,
             }}
+        />
+
+        <Stack.Screen name="Verificar" component={Verificar} 
+            options={{
+                header: () => 
+                    <Header title={"Verificar para Ondish"}/>,                   
+            }}        
+        />
+
+        <Stack.Screen name="AddNum" component={AddNum} 
+            options={{
+                header: () => 
+                    <Header title={"Adicionar Número"}/>,                   
+            }}        
         />
 
     </Stack.Navigator>

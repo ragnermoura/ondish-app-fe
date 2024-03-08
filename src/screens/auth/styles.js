@@ -16,6 +16,14 @@ export const Title = styled.Text`
   max-width: 80%;
 `;
 
+export const SubTitle = styled.Text`
+  font-size: 24px;
+  color: #010f07;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+`;
+
 export const Subtext = styled.Text`
   font-size: 16px;
   color: #868686;
@@ -25,6 +33,11 @@ export const Subtext = styled.Text`
 `;
 export const SpanText = styled.Text`
   font-size: 16px;
+  color: ${config.colors.red};
+`;
+
+export const SpanText2 = styled.Text`
+  font-size: 12px;
   color: ${config.colors.red};
 `;
 
