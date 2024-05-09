@@ -10,7 +10,11 @@ import {
   TextSimple,
   TextSub,
   SpanText,
-  ViewClick
+  ViewClick,
+  Iconqrcode,
+  CustomButtonQrcode,
+  TextSimpleQr,
+  TextSimpleArea
 } from "./styles";
 import SigInput from "../../components/input/mainInput";
 import Btn from "../../components/buttons/mainButton";
@@ -24,9 +28,9 @@ export default () => {
   const [passwordField, setPasswordField] = useState("");
 
   const handleEntrar = () => {
-    if(emailField === "" || passwordField === ""){
+    if (emailField === "" || passwordField === "") {
       alert("Erro", "Preencha todos os campos");
-    }else{
+    } else {
 
       api.login(emailField, passwordField).then((res) => {
         if (res) {
@@ -56,14 +60,20 @@ export default () => {
     });
   };
 
-  
+  const handleQrcode = () => {
+    navigation.reset({
+      routes: [{ name: "QrcodeScreen" }],
+    });
+  };
+
+
   const handleRecovery = () => {
     navigation.reset({
       routes: [{ name: 'Redefinir' }],
     });
   };
 
-  
+
 
 
 
@@ -95,13 +105,20 @@ export default () => {
         </InputPassword>
 
         <ViewClick onPress={handleRecovery}>
-        <TextSimple>Esqueceste a palavra-passe?</TextSimple>
+          <TextSimple>Esqueceste a palavra-passe?</TextSimple>
         </ViewClick>
 
         <Btn text={"Entrar"} onPress={handleEntrar} />
         <TextSub>Ou</TextSub>
-        <BtnFB text={"Continuar com Facebook"} />
+        
         <BtnGoogle text={"Continuar com Google"} />
+        <CustomButtonQrcode onPress={handleQrcode}>
+          <Iconqrcode />
+          <TextSimpleArea>
+            <TextSimpleQr>Leitura do cardápio</TextSimpleQr>
+          </TextSimpleArea>
+        </CustomButtonQrcode>
+
       </InputArea>
     </Container>
   );

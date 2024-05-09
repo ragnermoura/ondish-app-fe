@@ -8,10 +8,12 @@ import BtnGoogle from '../../components/buttons/googleButton';
 import { View, Text, Modal } from "react-native";
 import api from '../../../services/auth/index';
 import LottieView from 'lottie-react-native';
+import { UserContext } from '../../contexts/UserContext';
 
 
 export default () => {
   const navigation = useNavigation();
+  const { dispatch: userDispatch } = useContext(UserContext);
 
   const [emailField, setEmailField] = useState('');
   const [nomeField, setNomeField] = useState('');
@@ -38,8 +40,20 @@ export default () => {
 
       api.register(emailField, passwordField, nomeField, apelidoField).then((res) => {
         if (res.status === 201) {
+
+          userDispatch({
+            type: 'setUser',
+            payload: {
+                email: emailField,
+                nome: nomeField,
+                apelido: apelidoField,
+                senha: passwordField,
+            }
+        });
+        
+  
           api.sendNewCont(nomeField, emailField).then((res) => {
-            console.log('Cadastrado!');
+            console.log(res);
             setIsModalVisible(true);
           })
 
@@ -47,7 +61,7 @@ export default () => {
             setIsLoading(false);
           }, 4000);
 
-        
+
 
         } else {
           alert("Erro ao registar");
@@ -55,6 +69,7 @@ export default () => {
         }
       });
     }
+
   };
 
   return (
@@ -141,14 +156,16 @@ export default () => {
         }}
       >
         <LottieView
-          source={require('../../../assets/lottie/check.json')} 
+          source={require('../../../assets/lottie/check.json')}
           autoPlay
           loop={false}
           onAnimationFinish={() => {
-            setIsModalVisible(false); 
+            setIsModalVisible(false);
 
+             navigation.reset({
+               routes: [{ name: 'AddNum' }],
+             });
 
-           
           }}
         />
       </Modal>

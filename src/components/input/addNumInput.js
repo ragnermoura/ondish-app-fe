@@ -2,88 +2,48 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components/native';
 import config from '../../../assets/config.json'
 
-import Eye from '../../../assets/icons/iconEye.svg'
-import Phone from '../../../assets/icons/iconPhone.svg'
+import PhoneNumberInput from 'react-native-phone-number-input';
 
 
 const InputArea = styled.View`
-width: 100%;
+margin-top: 20%;
 height: 56px;
 border-radius: 6px;
-background-color: ${config.colors.input} ;
-flex-direction: row;
-padding-right: 15px;
-padding-left: 15px;
+background-color: ${config.colors.input};
 align-items: center;
-border: 1px;
-border-color: ${config.colors.borderinput};
-
-`;
-const Input = styled.TextInput`
-flex: 1;
-font-size: 16px;
-color: ${config.colors.black};
-font-size: 16px;
-font-style: normal;
-font-weight: 400;
-margin-left: 10px;
+border: 1px solid ${config.colors.borderinput};
 `;
 
-const EyeIcon = styled(Eye)`
-  padding-left: 60px;
-  
+const Label = styled.Text`
+  font-size: 12px;
+  color: #868686;
+  font-weight: bold;
+
+
 `;
-const PhoneIcon = styled(Phone)`
-  padding-left: 60px;
-  
-`;
 
-export default ({ placeholder, value, onChangeText, isPassword }) => {
-    const [password, setPassword] = useState(true);
-    const togglePasswordVisiblity = () => {
-        setPassword(password ? false : true);
-    };
 
-    const inputElementRef = useRef(null);
-
-    useEffect(() => {
-        inputElementRef.current.setNativeProps({
-        });
-    }, []);
-
-    const IconVisible = () => {
-        if (isPassword) {
-            return (
-                <EyeIcon
-                    width="20"
-                    height="20"
-                    fill="#444"
-                    onPress={togglePasswordVisiblity}
-                />
-            );
-        } else {
-            return (
-                <PhoneIcon
-                    width="24"
-                    height="24"
-                />
-            )
-
-        }
-    };
-
+export default ({ placeholder, value, onChangeText }) => {
     return (
         <InputArea>
-            <Input
+            <PhoneNumberInput
                 placeholder={placeholder}
+                sttyl
+                defaultCode="PT"
+                layout="first"
                 placeholderTextColor={config.colors.placeholder}
                 value={value}
                 onChangeText={onChangeText}
-                secureTextEntry={isPassword ? password : false}
-                ref={inputElementRef}
+                autoFocus
+                containerStyle={{flex: 1}} // Ajuste o estilo conforme necessário
+                textInputStyle={{
+                    flex: 1,
+                    fontSize: 16,
+                    color: config.colors.black,
+                    width: '100% !important',
+                    // Inclua outros estilos de TextInput que você deseja aqui
+                }}
             />
-
-            {IconVisible()}
         </InputArea>
     );
-}
+};

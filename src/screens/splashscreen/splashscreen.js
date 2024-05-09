@@ -6,18 +6,17 @@ import { Container, Logo, LoadingIcon} from './styles';
 
 export default () => {
   const navigation = useNavigation();
-
    useEffect(() => {
      const checkToken = async () => {
        try {
          const token = await AsyncStorage.getItem('token');
-         if (token) {
+         if (!token) {
            navigation.reset({
-             routes: [{ name: 'Splashscreen' }]
+             routes: [{ name: 'Welcome' }]
            });
          } else {
            navigation.reset({
-             routes: [{ name: 'Welcome' }]
+             routes: [{ name: 'MainTab' }]
            });
          }
        } catch (error) {
