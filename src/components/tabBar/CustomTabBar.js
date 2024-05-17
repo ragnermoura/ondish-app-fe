@@ -6,15 +6,14 @@ import Pesquisar from ".../../../assets/icons/search.svg";
 import Carrinho from ".../../../assets/icons/orders.svg";
 import Peril from ".../../../assets/icons/profile.svg";
 
-import config from '../../../assets/config.json'
+import config from "../../../assets/config.json";
 
 const TabArea = styled.View`
   height: 60px;
-  background-color: #FFF;
+  background-color: #fff;
   flex-direction: row;
   box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.4);
 `;
-
 
 const TabItem = styled.TouchableOpacity`
   flex: 1;
@@ -73,7 +72,7 @@ export default ({ state, navigation }) => {
           Carrinho{" "}
         </TextItem>
       </TabItem>
-      
+
       <TabItem onPress={() => goTo("Perfil")}>
         <Peril
           style={{ opacity: state.index === 4 ? 1 : 1.5 }}
@@ -84,7 +83,6 @@ export default ({ state, navigation }) => {
           Perfil
         </TextItem>
       </TabItem>
-
     </TabArea>
   );
 };

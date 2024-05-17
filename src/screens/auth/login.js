@@ -14,7 +14,7 @@ import {
   Iconqrcode,
   CustomButtonQrcode,
   TextSimpleQr,
-  TextSimpleArea
+  TextSimpleArea,
 } from "./styles";
 import SigInput from "../../components/input/mainInput";
 import Btn from "../../components/buttons/mainButton";
@@ -31,7 +31,6 @@ export default () => {
     if (emailField === "" || passwordField === "") {
       alert("Erro", "Preencha todos os campos");
     } else {
-
       api.login(emailField, passwordField).then((res) => {
         if (res) {
           if (res.data) {
@@ -50,7 +49,6 @@ export default () => {
           alert("Erro", "Erro ao efetuar login");
         }
       });
-
     }
   };
 
@@ -66,16 +64,11 @@ export default () => {
     });
   };
 
-
   const handleRecovery = () => {
     navigation.reset({
-      routes: [{ name: 'Redefinir' }],
+      routes: [{ name: "Redefinir" }],
     });
   };
-
-
-
-
 
   return (
     <Container>
@@ -83,7 +76,7 @@ export default () => {
       <Subtext>
         Digite seu número de telefone ou e-mail para entrar ou
         <Linked onPress={handleRegister}>
-          <SpanText> Criar nova conta</SpanText>
+          <SpanText> Criar nova conta.</SpanText>
         </Linked>
       </Subtext>
 
@@ -110,7 +103,7 @@ export default () => {
 
         <Btn text={"Entrar"} onPress={handleEntrar} />
         <TextSub>Ou</TextSub>
-        
+
         <BtnGoogle text={"Continuar com Google"} />
         <CustomButtonQrcode onPress={handleQrcode}>
           <Iconqrcode />
@@ -118,7 +111,6 @@ export default () => {
             <TextSimpleQr>Leitura do cardápio</TextSimpleQr>
           </TextSimpleArea>
         </CustomButtonQrcode>
-
       </InputArea>
     </Container>
   );

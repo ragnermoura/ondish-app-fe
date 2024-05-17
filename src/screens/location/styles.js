@@ -1,38 +1,37 @@
 import React from "react";
 import styled from "styled-components/native";
 
-
 export const Container = styled.SafeAreaView`
   padding: 5%;
   background-color: white;
-  
+
   align-items: center; /* Alinhando os itens ao centro horizontalmente */
 `;
 
 export const TextContainer = styled.View`
   display: flex;
   align-items: center;
+  margin-bottom: 40px;
 `;
 
 export const InputAreaView = styled.View`
-
-width: 100%;
-padding:  6%;
-margin-top: 65%;
-position: absolute;
-
+  width: 100%;
+  padding: 6%;
+  margin-top: 73%;
+  position: absolute;
 `;
 
 export const BtnContainer = styled.View`
   display: flex;
   align-items: center;
   position: absolute;
-  padding:  15%;
+  padding: 15%;
+  margin-top: 15px;
 `;
 
 export const Title = styled.Text`
   width: 287px;
-  color: #010F07;
+  color: #010f07;
   text-align: center;
   font-size: 24px;
   font-style: normal;

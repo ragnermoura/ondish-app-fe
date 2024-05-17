@@ -5,7 +5,7 @@ import Qrcode from "../../../assets/icons/iconQr.svg";
 
 export const Container = styled.SafeAreaView`
   margin: 5%;
- 
+
   margin-top: 2%;
 `;
 
@@ -14,7 +14,7 @@ export const Title = styled.Text`
   color: #010f07;
   font-weight: bold;
   margin-bottom: 10px;
-  max-width: 80%;
+  max-width: 85%;
 `;
 
 export const SubTitle = styled.Text`
@@ -30,8 +30,7 @@ export const Label = styled.Text`
   color: #868686;
   font-weight: bold;
   margin-top: 10%;
-margin-bottom: -15%;
-
+  margin-bottom: -15%;
 `;
 
 export const Subtext = styled.Text`
@@ -44,6 +43,7 @@ export const Subtext = styled.Text`
 export const SpanText = styled.Text`
   font-size: 16px;
   color: ${config.colors.red};
+  margin-bottom: -5px;
 `;
 
 export const SpanText2 = styled.Text`
@@ -67,8 +67,7 @@ export const TextSub = styled.Text`
   margin-bottom: 20px;
 `;
 
-export const Linked = styled.TouchableOpacity`
-`;
+export const Linked = styled.TouchableOpacity``;
 
 export const ViewClick = styled.TouchableOpacity``;
 
@@ -94,28 +93,25 @@ export const CustomButtonRegister = styled.TouchableOpacity`
 `;
 
 export const CustomButtonQrcode = styled.TouchableOpacity`
-border-top: 10%;
-  `;
+  border-top: 10%;
+`;
 
 export const Iconqrcode = styled(Qrcode)`
-align-self: center;
+  align-self: center;
 `;
 
 export const TextSimpleArea = styled.View`
-background-color: ${config.colors.red};
-align-self: center;
-border-radius: 10px;
-margin-top: 4%;
-padding: 7px;
-
+  background-color: ${config.colors.red};
+  align-self: center;
+  border-radius: 10px;
+  margin-top: 4%;
+  padding: 7px;
 `;
 
 export const TextSimpleQr = styled.Text`
-font-size: 14px;
+  font-size: 14px;
 
-font-weight: 400;
-text-align: center;
-color: ${config.colors.whrite};
-
-
-  `;
+  font-weight: 400;
+  text-align: center;
+  color: ${config.colors.whrite};
+`;

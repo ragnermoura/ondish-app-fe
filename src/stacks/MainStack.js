@@ -12,6 +12,13 @@ import Verificar from "../screens/auth/verificar";
 import AddNum from "../screens/auth/adicionarNumero";
 import QrcodeScreen from "../screens/qrcode/index";
 import MainTab from "./MainTab";
+import VerificarEmail from "../screens/auth/verificarEmail";
+import NovaSenha from "../screens/auth/novaSenha";
+import inTheRestaurant from "../screens/order/inTheRestaurant";
+import HeaderOrder from "../components/header/headerOrder";
+import InviteFriends from "../screens/inviteFriends";
+import AddOrder from "../screens/order/addOrder";
+import IndividualCheckout from "../screens/individualCheckout";
 
 const Stack = createStackNavigator();
 
@@ -82,6 +89,22 @@ export default () => (
     />
 
     <Stack.Screen
+      name="VerificarEmail"
+      component={VerificarEmail}
+      options={{
+        header: () => <Header title={"Verificar para Ondish"} />,
+      }}
+    />
+
+    <Stack.Screen
+      name="NovaSenha"
+      component={NovaSenha}
+      options={{
+        header: () => <Header title={"Definir Nova senha"} />,
+      }}
+    />
+
+    <Stack.Screen
       name="AddNum"
       component={AddNum}
       options={{
@@ -93,6 +116,38 @@ export default () => (
       component={QrcodeScreen}
       options={{
         header: () => <Header title={"Scanear a Carta"} />,
+      }}
+    />
+
+    <Stack.Screen
+      name="OrderInTheRestaurant"
+      component={inTheRestaurant}
+      options={{
+        header: () => <HeaderOrder icon={"back"} />,
+      }}
+    />
+
+    <Stack.Screen
+      name="AddOrder"
+      component={AddOrder}
+      options={{
+        headerShown: false,
+      }}
+    />
+
+    <Stack.Screen
+      name="IndividualCheckout"
+      component={IndividualCheckout}
+      options={{
+        header: () => <HeaderOrder icon={"close"} title={"Mesa"} />,
+      }}
+    />
+
+    <Stack.Screen
+      name="InviteFriends"
+      component={InviteFriends}
+      options={{
+        header: () => <HeaderOrder icon={"close"} />,
       }}
     />
 

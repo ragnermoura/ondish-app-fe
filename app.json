@@ -4,10 +4,10 @@
     "slug": "ondish-app-fe",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icons/iconCheck.png",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/images/Banner.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -26,12 +26,12 @@
       "package": "com.ragnermoura.ondishappfe"
     },
     "web": {
-      "favicon": "./assets/favicon.png",
+      "favicon": "./assets/icons/iconCheck.png",
       "backgroundColor": "#FFFFFF"
     },
     "extra": {
       "eas": {
-        "projectId": "aef664ed-d71e-4d95-b218-7ffc43d1efb4"
+        "projectId": "6f51f69b-4d38-48ac-ac06-fb5b7d28e5ea"
       }
     }
   }

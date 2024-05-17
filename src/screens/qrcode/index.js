@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import Btn from "../../components/buttons/mainButton";
+import { useNavigation } from "@react-navigation/native";
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     (async () => {
@@ -26,6 +29,10 @@ export default function App() {
     return <Text>No access to camera</Text>;
   }
 
+  setTimeout(() => {
+    navigation.navigate("OrderInTheRestaurant");
+  }, 3000);
+
   return (
     <View style={styles.container}>
       <BarCodeScanner
@@ -35,7 +42,6 @@ export default function App() {
       {scanned && (
         <Btn title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
       )}
-     
     </View>
   );
 }
@@ -51,7 +57,6 @@ const styles = StyleSheet.create({
     marginTop: "auto",
     marginBottom: "auto",
   },
- 
 
   button: {
     marginTop: 40,
