@@ -14,11 +14,19 @@ import QrcodeScreen from "../screens/qrcode/index";
 import MainTab from "./MainTab";
 import VerificarEmail from "../screens/auth/verificarEmail";
 import NovaSenha from "../screens/auth/novaSenha";
-import inTheRestaurant from "../screens/order/inTheRestaurant";
+import InTheRestaurant from "../screens/order/inTheRestaurant";
 import HeaderOrder from "../components/header/headerOrder";
 import InviteFriends from "../screens/inviteFriends";
 import AddOrder from "../screens/order/addOrder";
 import IndividualCheckout from "../screens/individualCheckout";
+import SplitAccount from "../screens/order/splitAccount";
+import HeaderComp from "../components/header/headerComp";
+import ExchangeOrders from "../screens/order/exchangeOrder";
+import SelectedPerson from "../screens/order/selectedPerson";
+import CheckoutFinal from "../screens/checkoutFinal";
+import PaymentMethod from "../screens/paymentMethod";
+import Cards from "../screens/cards";
+import AddCards from "../screens/addCards";
 
 const Stack = createStackNavigator();
 
@@ -115,17 +123,17 @@ export default () => (
       name="QrcodeScreen"
       component={QrcodeScreen}
       options={{
-        header: () => <Header title={"Scanear a Carta"} />,
+        header: () => <Header />,
       }}
     />
 
-    <Stack.Screen
+    {/* <Stack.Screen
       name="OrderInTheRestaurant"
-      component={inTheRestaurant}
+      component={InTheRestaurant}
       options={{
         header: () => <HeaderOrder icon={"back"} />,
       }}
-    />
+    /> */}
 
     <Stack.Screen
       name="AddOrder"
@@ -148,6 +156,62 @@ export default () => (
       component={InviteFriends}
       options={{
         header: () => <HeaderOrder icon={"close"} />,
+      }}
+    />
+
+    <Stack.Screen
+      name="ExchangeOrders"
+      component={ExchangeOrders}
+      options={{
+        header: () => <HeaderComp />,
+      }}
+    />
+
+    <Stack.Screen
+      name="SplitAccount"
+      component={SplitAccount}
+      options={{
+        header: () => <HeaderComp />,
+      }}
+    />
+
+    {/* <Stack.Screen
+      name="SelectedPerson"
+      component={SelectedPerson}
+      options={{
+        header: () => <HeaderComp />,
+      }}
+    /> */}
+
+    <Stack.Screen
+      name="CheckoutFinal"
+      component={CheckoutFinal}
+      options={{
+        header: () => <HeaderComp title={"Check-out"} />,
+      }}
+    />
+
+    <Stack.Screen
+      name="PaymentMethod"
+      component={PaymentMethod}
+      options={{
+        header: () => <HeaderComp title={"Forma de pagamento"} />,
+      }}
+    />
+
+    <Stack.Screen
+      name="Cards"
+      component={Cards}
+      options={{
+        header: () => <HeaderComp title={"Métodos de Pagamento"} />,
+      }}
+    />
+
+    <Stack.Screen
+      name="AddCards"
+      component={AddCards}
+      options={{
+        header: () => <HeaderComp />,
       }}
     />
 

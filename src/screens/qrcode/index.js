@@ -30,15 +30,26 @@ export default function App() {
   }
 
   setTimeout(() => {
-    navigation.navigate("OrderInTheRestaurant");
+    navigation.navigate("MainTab", { screen: "OrderInTheRestaurant" });
   }, 3000);
 
   return (
     <View style={styles.container}>
-      <BarCodeScanner
-        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-        style={StyleSheet.absoluteFillObject}
-      />
+      <View style={styles.overlay}>
+        <Text style={styles.title}>Ler o código QR :)</Text>
+        <Text style={styles.description}>
+          Leia o código QR para poder pedir na sua mesa
+        </Text>
+      </View>
+      <View style={styles.qrMarkerContainer}>
+        <View style={styles.qrMarker}>
+          <BarCodeScanner
+            onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+            // style={StyleSheet.absoluteFill}
+            style={styles.barcodeScanner}
+          />
+        </View>
+      </View>
       {scanned && (
         <Btn title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
       )}
@@ -47,15 +58,64 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  // container: {
+  //   width: 350,
+  //   height: 350,
+  //   borderRadius: 20,
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  //   alignSelf: "center",
+  //   marginTop: "auto",
+  //   marginBottom: "auto",
+  // },
+
   container: {
-    width: 350,
-    height: 350,
-    borderRadius: 20,
+    position: "absolute",
+    top: "-20%",
+    bottom: 0,
+    right: 0,
+    left: 0,
+    flex: 1,
+    justifyContent: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+
+  overlay: {
+    position: "absolute",
+    top: "30%",
+    left: 0,
+    right: 0,
+    alignItems: "center",
+  },
+
+  title: {
+    fontSize: 20,
+    color: "#fff",
+    marginBottom: 10,
+  },
+
+  description: {
+    fontSize: 16,
+    color: "#cccccc",
+  },
+
+  qrMarkerContainer: {
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    alignSelf: "center",
-    marginTop: "auto",
-    marginBottom: "auto",
+  },
+
+  barcodeScanner: {
+    height: 140,
+    width: 230,
+  },
+
+  qrMarker: {
+    width: 230,
+    height: 140,
+    borderWidth: 0,
+    borderRadius: 10,
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
   },
 
   button: {

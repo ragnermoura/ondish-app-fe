@@ -15,6 +15,7 @@ import {
   CustomButtonQrcode,
   TextSimpleQr,
   TextSimpleArea,
+  Spacing,
 } from "./styles";
 import SigInput from "../../components/input/mainInput";
 import Btn from "../../components/buttons/mainButton";
@@ -79,7 +80,7 @@ export default () => {
           <SpanText> Criar nova conta.</SpanText>
         </Linked>
       </Subtext>
-
+      <Spacing />
       <InputArea>
         <SigInput
           placeholder="Escreva o seu e-mail"

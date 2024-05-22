@@ -7,7 +7,7 @@ export default ({ number, title, text, value }) => {
   return (
     <Container>
       <CardNumber>
-        <Number>{number}</Number>
+        <Number>{number == 0 ? null : number}</Number>
       </CardNumber>
       <CardText>
         <Title>{title}</Title>
@@ -21,6 +21,7 @@ export default ({ number, title, text, value }) => {
 const Container = styled.View`
   flex-direction: row;
   justify-content: space-between;
+  padding-top: 15px;
   padding-bottom: 15px;
   margin-bottom: 5px;
   border-bottom-width: 1px;
@@ -30,7 +31,7 @@ const Container = styled.View`
 const CardNumber = styled.View`
   width: 25px;
   height: 25px;
-  border-radius: 8px;
+  border-radius: 5px;
   align-items: center;
   justify-content: center;
   border-width: 1px;

@@ -115,3 +115,7 @@ export const TextSimpleQr = styled.Text`
   text-align: center;
   color: ${config.colors.whrite};
 `;
+
+export const Spacing = styled.View`
+  margin-bottom: 40px;
+`;

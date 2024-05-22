@@ -54,7 +54,7 @@ export default ({ title, icon }) => {
     if (navigation.canGoBack()) {
       navigation.goBack();
     } else {
-      navigation.navigate("MainTab");
+      navigation.navigate("InTheRestaurant");
     }
   };
   return (

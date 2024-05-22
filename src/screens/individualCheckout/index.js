@@ -108,14 +108,17 @@ export default () => {
           <TextButton>Adicionar mais itens</TextButton>
           <IconBackRight />
         </BoxButton>
-        <BoxButton>
+        <BoxButton onPress={() => navigation.navigate("ExchangeOrders")}>
           <TextButton>Trocar pedidos</TextButton>
           <IconBackRight />
         </BoxButton>
 
         <ViewMargin></ViewMargin>
 
-        <MainButton text={"checkout"} />
+        <MainButton
+          text={"checkout"}
+          onPress={() => navigation.navigate("SplitAccount")}
+        />
       </Container>
     </ScrollView>
   );

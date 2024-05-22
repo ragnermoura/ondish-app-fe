@@ -98,7 +98,7 @@ export const ImgOne = styled(ImgEntrega)`
   margin-bottom: auto;
 `;
 
-export const CardImgAd = styled.View`
+export const CardImgAd = styled.TouchableOpacity`
   width: 95%;
   margin-bottom: 8%;
 `;
