@@ -22,11 +22,19 @@ import Btn from "../../components/buttons/mainButton";
 import BtnFB from "../../components/buttons/faceButton";
 import BtnGoogle from "../../components/buttons/googleButton";
 import api from "../../../services/auth/index";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default () => {
+export default ({ route }) => {
   const navigation = useNavigation();
   const [emailField, setEmailField] = useState("");
   const [passwordField, setPasswordField] = useState("");
+
+  let restaurant = null;
+
+  if (route.params) {
+    const { id_restaurant } = route.params;
+    restaurant = id_restaurant;
+  }
 
   const handleEntrar = () => {
     if (emailField === "" || passwordField === "") {
@@ -35,16 +43,73 @@ export default () => {
       api.login(emailField, passwordField).then((res) => {
         if (res) {
           if (res.data) {
-            if (res.data.status === "success") {
-              alert("Sucesso", "Login efetuado com sucesso");
-              navigation.reset({
-                routes: [{ name: "MainTab" }],
+            // console.log(res.data);
+            if (res.status === 200) {
+              // alert("Sucesso", "Login efetuado com sucesso");
+              const clearStorage = async () => {
+                try {
+                  await AsyncStorage.clear();
+                } catch (e) {
+                  console.error("Error clearing AsyncStorage", e);
+                }
+              };
+              clearStorage();
+
+              const storeObject = async (key, value) => {
+                try {
+                  const jsonValue = JSON.stringify(value);
+                  await AsyncStorage.setItem(key, jsonValue);
+                } catch (error) {
+                  console.error("Error storing object", error);
+                }
+              };
+              storeObject("token", { token: res.data.token });
+
+              api.getPerfil().then((res) => {
+                res.data.response.map((e) => {
+                  // console.log(e.email, emailField, e.email == emailField);
+                  if (e.email == emailField) {
+                    console.log(e);
+                    const storeObject = async (key, value) => {
+                      try {
+                        const jsonValue = JSON.stringify(value);
+                        await AsyncStorage.setItem(key, jsonValue);
+                      } catch (error) {
+                        console.error("Error storing object", error);
+                      }
+                    };
+                    storeObject("perfil", { perfil: e });
+                  } else {
+                    return;
+                  }
+                });
               });
+
+              // const getObject = async (key) => {
+              //   try {
+              //     const jsonValue = await AsyncStorage.getItem(key);
+              //     return jsonValue != null ? JSON.parse(jsonValue) : null;
+              //   } catch (error) {
+              //     console.error("Error retrieving object", error);
+              //   }
+              //   return null;
+              // };
+              // getObject("perfil").then((perfil) => console.log(perfil));
+
+              if (restaurant) {
+                navigation.navigate("OrderInTheRestaurant", {
+                  id: restaurant,
+                });
+              } else {
+                navigation.reset({
+                  routes: [{ name: "MainTab" }],
+                });
+              }
             } else {
-              alert("Erro", res.data.message);
+              alert("Erro 1", res.data.message);
             }
           } else {
-            alert("Erro", res.message);
+            alert("Erro 2", res.message);
           }
         } else {
           alert("Erro", "Erro ao efetuar login");
@@ -54,6 +119,7 @@ export default () => {
   };
 
   const handleRegister = () => {
+    // caso queira fazer o login assim que se registrar entao passar o id do restaurante por parametro na rota caso precise
     navigation.reset({
       routes: [{ name: "Registar" }],
     });

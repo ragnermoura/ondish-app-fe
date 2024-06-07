@@ -19,6 +19,7 @@ import {
   PaymentTitle,
   PaymentMethod,
   ChooseMethod,
+  ChooseMethodText,
 } from "./styles";
 import { Image, ScrollView, Text, View } from "react-native";
 import OrderCheckout from "../../components/cards/orderCheckout/orderCheckout";
@@ -112,7 +113,7 @@ export default ({ route }) => {
               <ChooseMethod
                 onPress={() => navigation.navigate("PaymentMethod")}
               >
-                Escolher forma de pagamento
+                <ChooseMethodText>Escolher forma de pagamento</ChooseMethodText>
               </ChooseMethod>
               <IconBackRight />
             </PaymentMethod>

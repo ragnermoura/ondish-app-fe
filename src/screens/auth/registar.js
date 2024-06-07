@@ -19,12 +19,14 @@ import { View, Text, Modal } from "react-native";
 import api from "../../../services/auth/index";
 import LottieView from "lottie-react-native";
 import { UserContext } from "../../contexts/UserContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default () => {
   const navigation = useNavigation();
-  const { dispatch: userDispatch } = useContext(UserContext);
+  // const { dispatch: userDispatch } = useContext(UserContext);
 
   const [emailField, setEmailField] = useState("");
+  const [isValidEmail, setIsValidEmail] = useState(true);
   const [nomeField, setNomeField] = useState("");
   const [apelidoField, setApelidoField] = useState("");
   const [passwordField, setPasswordField] = useState("");
@@ -38,6 +40,17 @@ export default () => {
     });
   };
 
+  const validateEmail = (email) => {
+    // Regex para validação básica de email
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  const handleEmailChange = (email) => {
+    setEmailField(email);
+    setIsValidEmail(validateEmail(email));
+  };
+
   const handleRegister = () => {
     if (
       emailField === "" ||
@@ -48,35 +61,32 @@ export default () => {
     } else if (passwordField !== confirmpasswordField) {
       alert("🫣 As palavras-passe não são iguais, tente novamente");
     } else {
-      setIsLoading(true);
-
-      api
-        .register(emailField, passwordField, nomeField, apelidoField)
-        .then((res) => {
-          if (res.status === 201) {
-            userDispatch({
-              type: "setUser",
-              payload: {
-                email: emailField,
-                nome: nomeField,
-                apelido: apelidoField,
-                senha: passwordField,
-              },
-            });
-
-            api.sendNewCont(nomeField, emailField).then((res) => {
-              console.log(res);
-              setIsModalVisible(true);
-            });
-
-            setTimeout(() => {
-              setIsLoading(false);
-            }, 4000);
-          } else {
-            alert("Erro ao registar");
-            setIsLoading(false);
+      if (validateEmail(emailField)) {
+        setIsLoading(true);
+        const storeData = async (key, value) => {
+          try {
+            const jsonValue = JSON.stringify(value);
+            await AsyncStorage.setItem(key, jsonValue);
+          } catch (error) {
+            console.error("Error storing data", error);
           }
+        };
+
+        storeData("registrar", {
+          email: emailField,
+          password: passwordField,
+          nome: nomeField,
+          apelido: apelidoField,
         });
+
+        setTimeout((e) => {
+          setIsLoading(false);
+        }, 4000);
+
+        navigation.navigate("AddNum");
+      } else {
+        alert("Email Inválido!");
+      }
     }
   };
 
@@ -113,7 +123,8 @@ export default () => {
             value={emailField}
             isEmail={true}
             onChangeText={(t) =>
-              setEmailField(t.charAt(0).toLowerCase() + t.slice(1))
+              // setEmailField(t.charAt(0).toLowerCase() + t.slice(1))
+              handleEmailChange(t)
             }
             editable={!isLoading}
           />

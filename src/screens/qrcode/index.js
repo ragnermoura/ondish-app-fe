@@ -3,6 +3,8 @@ import { Text, View, StyleSheet } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import Btn from "../../components/buttons/mainButton";
 import { useNavigation } from "@react-navigation/native";
+import { http } from "../../../services/config";
+import api from "../../../services/auth/index";
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -20,6 +22,11 @@ export default function App() {
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    // navigation.navigate(
+    //   "MainTab",
+    //   { screen: "OrderInTheRestaurant" },
+    //   { id: data }
+    // );
   };
 
   if (hasPermission === null) {
@@ -29,8 +36,12 @@ export default function App() {
     return <Text>No access to camera</Text>;
   }
 
+  // provisorio para facilitar o desenvolvimento
   setTimeout(() => {
-    navigation.navigate("MainTab", { screen: "OrderInTheRestaurant" });
+    navigation.navigate("MainTab", {
+      screen: "OrderInTheRestaurant",
+      params: { id: 2 },
+    });
   }, 3000);
 
   return (

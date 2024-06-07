@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Image, ScrollView, Text, View } from "react-native";
 import {
   Container,
@@ -11,111 +11,176 @@ import {
   OrderCard,
   ListOrder,
   TitleOptions,
+  SubTitleText,
+  PointSubTitle,
 } from "./style";
 import ThirdButton from "../../../components/buttons/thirdButton";
 import Order from "../../../components/cards/order/orderComp";
 import { useNavigation } from "@react-navigation/native";
+import api from "../../../../services/auth/index";
 
-// tirar duvida de como colocar a tabBar em baixo dessa pagina, do jeito que esta no figma
-export default () => {
+// fazer a lógica para ao clicar em algum prato e nao estar logado voltar para página de login
+export default ({ route }) => {
+  const [infoRes, setInfoRes] = useState(null);
+  const [bebidasRes, setBebidasRes] = useState(null);
   const navigation = useNavigation();
+  const { id } = route.params;
+  // const id = 2;
 
-  return (
-    <ScrollView>
-      <Container>
-        <NameTitle>Mayfield Bakery & Cafe</NameTitle>
-        <SubTitle>
-          Chinese{" "}
-          <Image source={require("../../../../assets/icons/iconPoint.png")} />{" "}
-          American{" "}
-          <Image source={require("../../../../assets/icons/iconPoint.png")} />{" "}
-          Deshi food
-        </SubTitle>
-        <Rating>
-          <RatingNumber>4.3</RatingNumber>
-          <RatingStar />
-          <RatingAvaliation>200+ Avaliações</RatingAvaliation>
-        </Rating>
-        <ThirdButton
-          text={"Convidar amigos"}
-          onPress={() => navigation.navigate("InviteFriends")}
-        />
+  useEffect(() => {
+    api.sendCodeRes(id).then((res) => {
+      if (res) {
+        setInfoRes(res.data);
+      } else {
+        alert("Erro", "Erro ao buscar restaurante");
+      }
+    });
+    api.getBebida(id).then((res) => {
+      if (res) {
+        setBebidasRes(res.data);
+      } else {
+        alert("Erro", "Erro ao buscar restaurante");
+      }
+    });
+  }, []);
 
-        <OrderCard>
-          <TitleOptions>Diario</TitleOptions>
-          <ListOrder>
-            <Order
-              title={"Smokey Jollof Rice"}
-              text={
-                "Delicious party smokey jollof rice. Serve with choice of protein & sides."
-              }
-              value={"9,5"}
-            />
-            <Order
-              title={"Classic Fried Rice"}
-              text={
-                "Classic original Naija fried rice Serve with choice of protein & sides."
-              }
-              value={"9,5"}
-            />
-            <Order
-              title={"Special Coconut Rice"}
-              text={
-                "Coconut rice with bit of suasage. Serve with choice of protein & sides."
-              }
-              value={"9,5"}
-            />
-          </ListOrder>
-          <TitleOptions>Varios</TitleOptions>
-          <ListOrder>
-            <Order
-              title={"Smokey Jollof Rice"}
-              text={
-                "Delicious party smokey jollof rice. Serve with choice of protein & sides."
-              }
-              value={"9,5"}
-            />
-            <Order
-              title={"Classic Fried Rice"}
-              text={
-                "Classic original Naija fried rice Serve with choice of protein & sides."
-              }
-              value={"9,5"}
-            />
-            <Order
-              title={"Special Coconut Rice"}
-              text={
-                "Coconut rice with bit of suasage. Serve with choice of protein & sides."
-              }
-              value={"9,5"}
-            />
-          </ListOrder>
-          <TitleOptions>Bebidas</TitleOptions>
-          <ListOrder>
-            <Order
-              title={"Red wine"}
-              text={
-                "Delicious party smokey jollof rice. Serve with choice of protein & sides."
-              }
-              value={"9,5"}
-            />
-            <Order
-              title={"Rosé wine"}
-              text={
-                "Classic original Naija fried rice Serve with choice of protein & sides."
-              }
-              value={"9,5"}
-            />
-            <Order
-              title={"Special Coconut Rice"}
-              text={
-                "Coconut rice with bit of suasage. Serve with choice of protein & sides."
-              }
-              value={"9,5"}
-            />
-          </ListOrder>
-        </OrderCard>
-      </Container>
-    </ScrollView>
-  );
+  // console.log(infoRes);
+
+  if (infoRes) {
+    // console.log(bebidasRes);
+    const avaliation = Number(infoRes.avaliacoes[0].avaliacao);
+    return (
+      <ScrollView>
+        <Container>
+          <NameTitle>{infoRes.nome_restaurante}</NameTitle>
+          <SubTitle>
+            {infoRes.cozinha_restaurante[0]
+              ? infoRes.cozinha_restaurante.map((e) => {
+                  return (
+                    <Fragment key={e.id_cozinha_restaurante}>
+                      <SubTitleText>{e.nome_cozinha}</SubTitleText>
+                      <PointSubTitle
+                        source={require("../../../../assets/icons/iconPoint.png")}
+                      />
+                    </Fragment>
+                  );
+                })
+              : ""}
+            {/* {infoRes.pratos[0] ? infoRes.pratos[0].cozinha.nome_cozinha : ""}{" "}
+            <Image source={require("../../../../assets/icons/iconPoint.png")} />{" "}
+            {infoRes.pratos[1] ? infoRes.pratos[1].cozinha.nome_cozinha : ""}{" "}
+            <Image source={require("../../../../assets/icons/iconPoint.png")} />{" "}
+            {infoRes.pratos[2] ? infoRes.pratos[2].cozinha.nome_cozinha : ""} */}
+          </SubTitle>
+          <Rating>
+            <RatingNumber>{avaliation.toFixed(1)}</RatingNumber>
+            <RatingStar />
+            <RatingAvaliation>
+              {infoRes.avaliacoes.length}+ Avaliações
+            </RatingAvaliation>
+          </Rating>
+          <ThirdButton
+            text={"Convidar amigos"}
+            onPress={() => navigation.navigate("InviteFriends")}
+          />
+
+          <OrderCard>
+            <TitleOptions>Diario</TitleOptions>
+            <ListOrder>
+              {infoRes.pratos.map((e) => {
+                if (e.prato_do_dia == 1) {
+                  return (
+                    <Order
+                      title={e.titulo}
+                      text={e.descricao}
+                      value={e.valor}
+                      id_pratos={e.id_pratos}
+                      key={e.id_pratos}
+                      img={e.fotos[0].foto}
+                      id_restaurant={e.id_restaurante}
+                    />
+                  );
+                }
+              })}
+            </ListOrder>
+            <TitleOptions>Varios</TitleOptions>
+            <ListOrder>
+              {infoRes.pratos.map((e) => {
+                if (e.prato_do_dia == 0) {
+                  return (
+                    <Order
+                      title={e.titulo}
+                      text={e.descricao}
+                      value={e.valor}
+                      key={e.id_pratos}
+                      img={e.fotos[0].foto}
+                      id_restaurant={e.id_restaurante}
+                    />
+                  );
+                }
+              })}
+              {/* <Order
+                title={"Smokey Jollof Rice"}
+                text={
+                  "Delicious party smokey jollof rice. Serve with choice of protein & sides."
+                }
+                value={"9,5"}
+              />
+              <Order
+                title={"Classic Fried Rice"}
+                text={
+                  "Classic original Naija fried rice Serve with choice of protein & sides."
+                }
+                value={"9,5"}
+              />
+              <Order
+                title={"Special Coconut Rice"}
+                text={
+                  "Coconut rice with bit of suasage. Serve with choice of protein & sides."
+                }
+                value={"9,5"}
+              /> */}
+            </ListOrder>
+            <TitleOptions>Bebidas</TitleOptions>
+            <ListOrder>
+              {/* {bebidasRes.map((e) => {
+                return (
+                  <Order
+                    title={e.titulo}
+                    text={e.descricao}
+                    value={e.valor}
+                    key={e.id_pratos}
+                    img={e.fotos[0].foto}
+                  />
+                );
+              })} */}
+              {/* <Order
+                title={"Red wine"}
+                text={
+                  "Delicious party smokey jollof rice. Serve with choice of protein & sides."
+                }
+                value={"9,5"}
+              />
+              <Order
+                title={"Rosé wine"}
+                text={
+                  "Classic original Naija fried rice Serve with choice of protein & sides."
+                }
+                value={"9,5"}
+              />
+              <Order
+                title={"Special Coconut Rice"}
+                text={
+                  "Coconut rice with bit of suasage. Serve with choice of protein & sides."
+                }
+                value={"9,5"}
+              /> */}
+            </ListOrder>
+          </OrderCard>
+        </Container>
+      </ScrollView>
+    );
+  } else {
+    return <Container></Container>;
+  }
 };

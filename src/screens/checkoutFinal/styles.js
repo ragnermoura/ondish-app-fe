@@ -117,8 +117,11 @@ export const PaymentMethod = styled.TouchableOpacity`
   padding-bottom: 20px;
 `;
 
-export const ChooseMethod = styled.Text`
+export const ChooseMethod = styled.TouchableOpacity`
   width: 75%;
+`;
+
+export const ChooseMethodText = styled.Text`
   font-size: 16px;
   font-weight: 500;
   color: ${config.colors.black};

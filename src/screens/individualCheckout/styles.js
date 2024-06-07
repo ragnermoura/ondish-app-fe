@@ -96,3 +96,13 @@ export const TextButton = styled.Text`
 export const ViewMargin = styled.View`
   margin-bottom: 30px;
 `;
+
+export const IconCard = styled.View`
+  padding: 2px;
+  border-width: 1px;
+  border-radius: 30px;
+  margin-right: 8px;
+  border-color: #a9a9a9;
+  align-items: center;
+  justify-content: center;
+`;

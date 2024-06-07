@@ -1,25 +1,45 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { TouchableOpacity, Image } from "react-native";
 import styled from "styled-components/native";
 import config from "../../../../assets/config.json";
 import { useNavigation } from "@react-navigation/native";
+import { baseUrl } from "../../../../services/config";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default ({ title, text, value }) => {
+export default ({ title, text, value, id_pratos, img, id_restaurant }) => {
   const navigation = useNavigation();
 
-  return (
-    <TouchableOpacity
-      onPress={() =>
-        navigation.navigate("AddOrder", { name: title, value: value })
+  const checkToken = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      if (!token) {
+        navigation.navigate("Login", { id_restaurant: id_restaurant });
+      } else {
+        navigation.navigate("InviteFriends", {
+          value: value,
+          prato: id_pratos,
+          id_restaurant: id_restaurant,
+        });
       }
-    >
+    } catch (error) {
+      console.error("Erro ao buscar o token", error);
+    }
+  };
+
+  return (
+    <TouchableOpacity onPress={() => checkToken()}>
       <FoodCard>
         <InfoDish>
           <NameFood>{title}</NameFood>
           <TextFood>{text}</TextFood>
           <ValueFood>{value} €</ValueFood>
         </InfoDish>
-        <Image source={require("../../../../assets/images/imgJollof.png")} />
+        <Img
+          source={{
+            uri: `https://ondish.webserverapi.online/api/public${img}`,
+          }}
+        />
+        {/* <Image source={require("../../../../assets/images/imgJollof.png")} /> */}
       </FoodCard>
     </TouchableOpacity>
   );
@@ -58,4 +78,10 @@ const ValueFood = styled.Text`
   font-size: 16px;
   font-weight: bold;
   color: ${config.colors.red};
+`;
+
+const Img = styled.Image`
+  width: 90px;
+  height: 90px;
+  border-radius: 15px;
 `;

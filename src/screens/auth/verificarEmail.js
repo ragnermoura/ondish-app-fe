@@ -11,11 +11,20 @@ import {
   TextSimple,
 } from "./styles";
 import Btn from "../../components/buttons/mainButton";
-import VfInput from "../../components/input/verifyInput";
+import { VerifyInput } from "../../components/input/verifyInput";
 import { Text, View } from "react-native";
 
-export default () => {
+export default ({}) => {
+  const [input1, setInput1] = useState(null);
+  const [input2, setInput2] = useState(null);
+  const [input3, setInput3] = useState(null);
+  const [input4, setInput4] = useState(null);
+
   const navigation = useNavigation();
+
+  const preencherInput = (t, setInput) => {
+    setInput(t);
+  };
 
   return (
     <Container>
@@ -34,13 +43,29 @@ export default () => {
           marginLeft: "10%",
         }}
       >
-        <VfInput placeholder="4" value="" onChangeText="" />
+        <VerifyInput
+          placeholder="4"
+          value={input1}
+          onChangeText={(t) => preencherInput(t, setInput1)}
+        />
 
-        <VfInput placeholder="4" value="" onChangeText="" />
+        <VerifyInput
+          placeholder="4"
+          value={input2}
+          onChangeText={(t) => preencherInput(t, setInput2)}
+        />
 
-        <VfInput placeholder="4" value="" onChangeText="" />
+        <VerifyInput
+          placeholder="4"
+          value={input3}
+          onChangeText={(t) => preencherInput(t, setInput3)}
+        />
 
-        <VfInput placeholder="4" value="" onChangeText="" />
+        <VerifyInput
+          placeholder="4"
+          value={input4}
+          onChangeText={(t) => preencherInput(t, setInput4)}
+        />
       </View>
 
       <View style={{ marginTop: 20 }}></View>

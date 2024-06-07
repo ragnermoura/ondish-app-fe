@@ -29,7 +29,7 @@ export const Title = styled.Text`
 `;
 
 export const InputArea = styled.View`
-  width: 70%;
+  width: 90%;
   height: 56px;
   background-color: ${config.colors.input};
   border-radius: 6px;
@@ -39,15 +39,15 @@ export const InputArea = styled.View`
   border-color: ${config.colors.borderinput};
 `;
 
-export const IconArrow = styled(ArrowBack)`
-  padding-left: 40px;
-`;
+// export const IconArrow = styled(ArrowBack)`
+//   padding-left: 40px;
+// `;
 
-export const Input = styled.TextInput`
-  width: 100%;
-  font-size: 16px;
-  color: ${config.colors.black};
-`;
+// export const Input = styled.TextInput`
+//   width: 100%;
+//   font-size: 16px;
+//   color: ${config.colors.black};
+// `;
 
 export const BoxButton = styled.View`
   width: 100%;
@@ -76,4 +76,56 @@ export const TextButton = styled.Text`
   line-height: 24px;
   letter-spacing: 0.8px;
   text-transform: uppercase;
+`;
+
+export const InviteFriendCard = styled.TouchableOpacity`
+  width: 90%;
+  padding: 20px;
+  justify-content: center;
+  align-items: center;
+  border-bottom-width: 1px;
+  border-color: rgba(134, 134, 134, 0.2);
+`;
+
+export const IconCard = styled.View`
+  padding: 2px;
+  border-width: 1px;
+  border-radius: 30px;
+  margin-right: 8px;
+  border-color: #a9a9a9;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const ImgFriend = styled.Image`
+  margin-right: 10px;
+  width: 30px;
+  height: 30px;
+`;
+
+export const TextFriend = styled.Text`
+  color: #010f07;
+  font-size: 16px;
+  font-weight: 500;
+`;
+
+export const InvitedPersonCard = styled.View`
+  align-items: center;
+  margin: 40px 0;
+  width: 100%;
+  min-height: 85px;
+  border-radius: 10px;
+  border-width: 1px;
+  border-color: rgba(134, 134, 134, 0.2);
+`;
+
+export const InvitedPersonText = styled.Text`
+  width: 100%;
+  background-color: ${config.colors.input};
+  text-align: center;
+  color: #010f07;
+  font-size: 16px;
+  font-weight: 500;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 `;

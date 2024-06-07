@@ -27,7 +27,10 @@ export default () => {
 
       <InputArea>
         <View style={{ marginTop: 20 }}></View>
-        <Btn text={"Envie novamente"} />
+        <Btn
+          text={"Envie novamente"}
+          onPress={() => navigation.navigate("NovaSenha")}
+        />
       </InputArea>
     </Container>
   );

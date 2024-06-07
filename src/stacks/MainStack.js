@@ -27,6 +27,7 @@ import CheckoutFinal from "../screens/checkoutFinal";
 import PaymentMethod from "../screens/paymentMethod";
 import Cards from "../screens/cards";
 import AddCards from "../screens/addCards";
+import WatingFriends from "../screens/watingFriends/watingFriends";
 
 const Stack = createStackNavigator();
 
@@ -147,7 +148,9 @@ export default () => (
       name="IndividualCheckout"
       component={IndividualCheckout}
       options={{
-        header: () => <HeaderOrder icon={"close"} title={"Mesa"} />,
+        header: () => (
+          <HeaderOrder iconLeft={"close"} iconRight={"close"} title={"Mesa"} />
+        ),
       }}
     />
 
@@ -155,7 +158,15 @@ export default () => (
       name="InviteFriends"
       component={InviteFriends}
       options={{
-        header: () => <HeaderOrder icon={"close"} />,
+        header: () => <HeaderOrder iconRight={"close"} />,
+      }}
+    />
+
+    <Stack.Screen
+      name="WatingFriends"
+      component={WatingFriends}
+      options={{
+        header: () => <HeaderOrder iconRight={"close"} />,
       }}
     />
 
@@ -187,7 +198,13 @@ export default () => (
       name="CheckoutFinal"
       component={CheckoutFinal}
       options={{
-        header: () => <HeaderComp title={"Check-out"} />,
+        header: () => (
+          <HeaderOrder
+            iconRight={"close"}
+            iconLeft={"close"}
+            title={"Check-out"}
+          />
+        ),
       }}
     />
 
@@ -195,7 +212,13 @@ export default () => (
       name="PaymentMethod"
       component={PaymentMethod}
       options={{
-        header: () => <HeaderComp title={"Forma de pagamento"} />,
+        header: () => (
+          <HeaderOrder
+            iconRight={"close"}
+            iconLeft={"close"}
+            title={"Forma de pagamento"}
+          />
+        ),
       }}
     />
 

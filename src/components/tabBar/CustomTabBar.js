@@ -5,7 +5,6 @@ import Home from "../../../assets/icons/home.svg";
 import Pesquisar from ".../../../assets/icons/search.svg";
 import Carrinho from ".../../../assets/icons/orders.svg";
 import Peril from ".../../../assets/icons/profile.svg";
-
 import config from "../../../assets/config.json";
 
 const TabArea = styled.View`
@@ -29,6 +28,17 @@ const TextItem = styled.Text`
   margin-top: 5px;
 `;
 
+// quando clicar no botao pagar que aparecer o popUpConfirmation na tela colocar esse popup na bar e
+// tirar apos clicar em voltar pra mesa
+const PopUp = styled.View`
+  position: absolute;
+  z-index: 10;
+  bottom: 0;
+  height: 60px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+`;
+
 export default ({ state, navigation }) => {
   const goTo = (screenName) => {
     navigation.navigate(screenName);
@@ -36,6 +46,7 @@ export default ({ state, navigation }) => {
 
   return (
     <TabArea>
+      {/* <PopUp /> */}
       <TabItem onPress={() => goTo("Home")}>
         <Home
           style={{ opacity: state.index === 1 ? 1 : 0.5 }}

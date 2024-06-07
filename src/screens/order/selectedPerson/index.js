@@ -18,11 +18,17 @@ import PopUp from "../../../components/popUpConfirmation/popUpConfirmation";
 export default ({ route }) => {
   const [clicked, setClicked] = useState(false);
 
-  const teste = () => {
+  const callPopUp = () => {
     setClicked(true);
   };
-  // const { name } = route.params;
-  const name = "Susie Bridges";
+
+  const closePopAndNavigation = () => {
+    setClicked(false);
+    navigation.navigate("IndividualCheckout");
+  };
+
+  const { name } = route.params;
+  // const name = "Susie Bridges";
 
   const navigation = useNavigation();
 
@@ -32,7 +38,7 @@ export default ({ route }) => {
         <PopUp
           title={"Pedido Trocado com sucesso"}
           text={"Continue disfrutando dos nossos serviços"}
-          onpress={() => navigation.navigate("IndividualCheckout")}
+          onpress={() => closePopAndNavigation()}
           buttonText={"Voltar a mesa"}
         />
       ) : (
@@ -67,7 +73,7 @@ export default ({ route }) => {
             value={`${7.4}€`}
           />
         </OrdersCard>
-        <MainButton text={"Trocar"} onPress={() => teste()} />
+        <MainButton text={"Trocar"} onPress={() => callPopUp()} />
       </Container>
     </Fragment>
   );

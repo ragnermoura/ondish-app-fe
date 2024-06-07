@@ -10,6 +10,7 @@ import Carrinho from "../screens/carrinho";
 import HeaderOrder from "../components/header/headerOrder";
 import InTheRestaurant from "../screens/order/inTheRestaurant";
 import SelectedPerson from "../screens/order/selectedPerson";
+import Perfil from "../screens/perfil";
 
 const Tab = createBottomTabNavigator();
 
@@ -35,6 +36,14 @@ export default () => (
     ></Tab.Screen>
 
     <Tab.Screen
+      name="Perfil"
+      component={Perfil}
+      options={{
+        header: () => <HeaderComp />,
+      }}
+    ></Tab.Screen>
+
+    <Tab.Screen
       name="Carrinho"
       component={Carrinho}
       options={{
@@ -46,7 +55,8 @@ export default () => (
       name="OrderInTheRestaurant"
       component={InTheRestaurant}
       options={{
-        header: () => <HeaderOrder icon={"back"} />,
+        // header: () => <HeaderOrder icon={"back"} />,
+        header: () => <HeaderOrder iconLeft={"back"} iconRight={"close"} />,
       }}
     ></Tab.Screen>
 

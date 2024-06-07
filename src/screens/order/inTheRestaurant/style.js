@@ -16,11 +16,22 @@ export const NameTitle = styled.Text`
   margin-bottom: 10px;
 `;
 
-export const SubTitle = styled.Text`
+export const SubTitle = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 15px;
+`;
+
+export const SubTitleText = styled.Text`
   font-size: 16px;
   font-weight: regular;
   color: #868686;
-  margin-bottom: 15px;
+  margin-right: 8px;
+`;
+
+export const PointSubTitle = styled.Image`
+  margin-bottom: -5px;
+  margin-right: 8px;
 `;
 
 export const Rating = styled.View`
@@ -34,6 +45,7 @@ export const RatingNumber = styled.Text`
 
 export const RatingStar = styled(RatingStars)`
   margin-right: 5px;
+  margin-top: -1.5px;
 `;
 
 export const RatingAvaliation = styled.Text`

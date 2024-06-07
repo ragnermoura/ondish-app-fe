@@ -8,11 +8,24 @@ export default () => {
   useEffect(() => {
     const checkToken = async () => {
       try {
+        const clearStorage = async () => {
+          try {
+            await AsyncStorage.clear();
+          } catch (e) {
+            console.error("Error clearing AsyncStorage", e);
+          }
+        };
+        clearStorage();
         const token = await AsyncStorage.getItem("token");
         if (!token) {
-          navigation.reset({
-            routes: [{ name: "Welcome" }],
-          });
+          // navigation.reset({
+          //   routes: [{ name: "MainTab", screen: "OrderInTheRestaurant" }],
+          // });
+          // passar o id do restaurante que recebe por rota ou por async storage para a rota do orderintherestaurant
+
+          // criar a logica de cadastro do perfil junto do registrar e salvar no asyncStorage
+          navigation.navigate("Login");
+          // navigation.navigate("MainTab", { screen: "OrderInTheRestaurant" });
         } else {
           navigation.reset({
             routes: [{ name: "MainTab" }],

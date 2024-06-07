@@ -47,26 +47,26 @@ const TitleArea = styled.View`
   width: 100%;
 `;
 
-export default ({ title, icon }) => {
+export default ({ title, iconRight, iconLeft }) => {
   const navigation = useNavigation();
 
   const handleBack = () => {
     if (navigation.canGoBack()) {
       navigation.goBack();
     } else {
-      navigation.navigate("InTheRestaurant");
+      navigation.navigate("MainTab", { screen: "OrderInTheRestaurant" });
     }
   };
   return (
     <HeaderArea>
       <ButtomAreaRight onPress={handleBack}>
-        {icon == "back" ? <BackIcon /> : <MinCloseIcon />}
+        {iconLeft == "back" ? <BackIcon /> : <MinCloseIcon />}
       </ButtomAreaRight>
       <TitleArea>
         <TitleHeader>{title}</TitleHeader>
       </TitleArea>
       <ButtomAreaLeft>
-        {icon == "close" ? <></> : <SearchIcon />}
+        {iconRight == "close" ? <></> : <SearchIcon />}
       </ButtomAreaLeft>
     </HeaderArea>
   );
