@@ -56,11 +56,11 @@ export default () => {
             value.email,
             value.password,
             value.nome,
-            value.apelido,
-            telemovelField
+            value.apelido
+            // telemovelField
           )
           .then((res) => {
-            // console.log(res);
+            console.log(res);
             if (res.status === 202) {
               const id_usuario = res.data.usuarioCriado.id_user;
               setIsLoading(true);

@@ -22,11 +22,11 @@ export default function App() {
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-    // navigation.navigate(
-    //   "MainTab",
-    //   { screen: "OrderInTheRestaurant" },
-    //   { id: data }
-    // );
+    // console.log(data);
+    navigation.navigate("MainTab", {
+      screen: "OrderInTheRestaurant",
+      params: { id: data },
+    });
   };
 
   if (hasPermission === null) {
@@ -37,12 +37,12 @@ export default function App() {
   }
 
   // provisorio para facilitar o desenvolvimento
-  setTimeout(() => {
-    navigation.navigate("MainTab", {
-      screen: "OrderInTheRestaurant",
-      params: { id: 2 },
-    });
-  }, 3000);
+  // setTimeout(() => {
+  //   navigation.navigate("MainTab", {
+  //     screen: "OrderInTheRestaurant",
+  //     params: { id: 2 },
+  //   });
+  // }, 3000);
 
   return (
     <View style={styles.container}>

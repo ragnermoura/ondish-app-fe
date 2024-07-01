@@ -25,29 +25,42 @@ export default ({ route }) => {
   const [bebidasRes, setBebidasRes] = useState(null);
   const navigation = useNavigation();
   const { id } = route.params;
-  // const id = 2;
+  // console.log(id);
+  // const id = 1;
 
   useEffect(() => {
     api.sendCodeRes(id).then((res) => {
-      if (res) {
-        setInfoRes(res.data);
+      // console.log(res.status, res.data);
+      console.log(res.status);
+      if (res.status === 500) {
+        // alert("Erro ao buscar restaurante");
+        console.log(res.status, res.data);
       } else {
-        alert("Erro", "Erro ao buscar restaurante");
+        if (res) {
+          console.log(res);
+          setInfoRes(res.data);
+        } else {
+          return;
+        }
       }
     });
     api.getBebida(id).then((res) => {
-      if (res) {
-        setBebidasRes(res.data);
+      // console.log(res.status, res.data);
+      console.log(res.status);
+      if (res.status === 500) {
+        // alert("Erro ao buscar bebidas");
+        console.log(res.status, res.data);
       } else {
-        alert("Erro", "Erro ao buscar restaurante");
+        if (res) {
+          setBebidasRes(res.data);
+        } else {
+          return;
+        }
       }
     });
   }, []);
 
-  // console.log(infoRes);
-
   if (infoRes) {
-    // console.log(bebidasRes);
     const avaliation = Number(infoRes.avaliacoes[0].avaliacao);
     return (
       <ScrollView>
@@ -79,10 +92,10 @@ export default ({ route }) => {
               {infoRes.avaliacoes.length}+ Avaliações
             </RatingAvaliation>
           </Rating>
-          <ThirdButton
+          {/* <ThirdButton
             text={"Convidar amigos"}
             onPress={() => navigation.navigate("InviteFriends")}
-          />
+          /> */}
 
           <OrderCard>
             <TitleOptions>Diario</TitleOptions>
@@ -181,6 +194,10 @@ export default ({ route }) => {
       </ScrollView>
     );
   } else {
-    return <Container></Container>;
+    return (
+      <Container>
+        <Text>Sem restaurante Cadastrado</Text>
+      </Container>
+    );
   }
 };

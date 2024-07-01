@@ -21,6 +21,9 @@ export default () => {
           // navigation.reset({
           //   routes: [{ name: "MainTab", screen: "OrderInTheRestaurant" }],
           // });
+          // navigation.reset({
+          //   routes: [{ name: "MainTab" }],
+          // });
           // passar o id do restaurante que recebe por rota ou por async storage para a rota do orderintherestaurant
 
           // criar a logica de cadastro do perfil junto do registrar e salvar no asyncStorage

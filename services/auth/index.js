@@ -40,10 +40,10 @@ export default {
           sobrenome: apelidoField,
           email: emailField,
           senha: passwordField,
-          avatar: "default",
+          avatar: "default-avatar.png",
           id_nivel: 3,
           id_status: 1,
-          telefone: telefoneField,
+          // telefone: telefoneField,
         },
         {
           headers: {
@@ -51,6 +51,7 @@ export default {
             Accept: "application/json",
             "Access-Control-Allow-Headers": "*",
             "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+            "Content-Type": "multipart/form-data",
           },
         }
       );
