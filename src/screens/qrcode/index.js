@@ -29,6 +29,13 @@ export default function App() {
     });
   };
 
+  setTimeout(() => {
+    navigation.navigate("MainTab", {
+      screen: "OrderInTheRestaurant",
+      params: { id: 1 },
+    });
+  }, 1000);
+
   if (hasPermission === null) {
     return <Text>Requesting for camera permission</Text>;
   }

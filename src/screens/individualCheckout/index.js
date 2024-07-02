@@ -40,6 +40,7 @@ export default ({ route }) => {
   const [pedido, setPedido] = useState(null);
   const [infoRes, setInfoRes] = useState(null);
   const [perfil, setPerfil] = useState(null);
+  const [randomNumber, setRandomNumber] = useState(0);
 
   const navigation = useNavigation();
 
@@ -64,12 +65,14 @@ export default ({ route }) => {
       savePedidos(name, value, opcao1, opcao2, id_restaurant)
     );
     getObject("perfil").then((perfil) => setPerfil(perfil));
+    const newRandomNumber = Math.floor(Math.random() * 1000) + 1; // Gera um número entre 1 e 1000
+    setRandomNumber(newRandomNumber);
   }, []);
   // console.log(perfil);
 
   useEffect(() => {
     if (pedido != null) {
-      api.sendCodeRes(pedido.id_restaurant).then((res) => {
+      api.getRestaurant(pedido.id_restaurant).then((res) => {
         if (res) {
           setInfoRes(res.data);
         } else {
@@ -91,11 +94,12 @@ export default ({ route }) => {
             translucent={true}
             backgroundColor={"transparent"}
           />
-          <ButtonInvite onPress={() => navigation.navigate("InviteFriends")}>
+          {/* <ButtonInvite onPress={() => navigation.navigate("InviteFriends")}>
             <TextInvite>Convidar amigos</TextInvite>
-          </ButtonInvite>
+          </ButtonInvite> */}
           {/* alterar o nome para quando tiver o perfil */}
           <Title>Cliente {perfil.perfil.nome}</Title>
+          {/* <Title>Cliente Idrikson</Title> */}
           <InfoCard>
             <InfoText>
               Restaurante:{" "}
@@ -104,10 +108,11 @@ export default ({ route }) => {
               </InfoTextHighlighted>
             </InfoText>
             <InfoText>
-              Reserva nº: <InfoTextHighlighted>N/A</InfoTextHighlighted>
+              Pedido nº:{" "}
+              <InfoTextHighlighted>{randomNumber}</InfoTextHighlighted>
             </InfoText>
             <InfoText>
-              {/* alterar o número da mesa quando fizer a parte de pedir o número da mesa */}
+              {/* criar um filtro que mostra quais mesas estao disponiveis com base no que vem da api  */}
               Mesa: <InfoTextHighlighted>28</InfoTextHighlighted>
             </InfoText>
           </InfoCard>
@@ -195,13 +200,14 @@ export default ({ route }) => {
           </SubTotalCard>
 
           <BoxButton>
+            {/* voltar pra AddOrder e ficar como se fosse um editar */}
             <TextButton>Adicionar mais itens</TextButton>
             <IconBackRight />
           </BoxButton>
-          <BoxButton onPress={() => navigation.navigate("ExchangeOrders")}>
+          {/* <BoxButton onPress={() => navigation.navigate("ExchangeOrders")}>
             <TextButton>Trocar pedidos</TextButton>
             <IconBackRight />
-          </BoxButton>
+          </BoxButton> */}
 
           <ViewMargin></ViewMargin>
 

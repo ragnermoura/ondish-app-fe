@@ -26,18 +26,19 @@ export const InfoFood = styled.View`
   margin-bottom: 24px;
   padding: 0 5%;
   height: 130px;
-  justify-content: space-between;
 `;
 
 export const Title = styled.Text`
   font-size: 24px;
   font-weight: bold;
   color: #010f07;
+  margin-bottom: 15px;
 `;
 
 export const Description = styled.Text`
   font-size: 16px;
   color: rgba(1, 15, 7, 0.65);
+  margin-bottom: 10px;
 `;
 
 export const SubTitle = styled.Text`

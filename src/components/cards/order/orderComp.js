@@ -15,6 +15,7 @@ export default ({ title, text, value, id_pratos, img, id_restaurant }) => {
       if (!token) {
         navigation.navigate("Login", { id_restaurant: id_restaurant });
       } else {
+        console.log(id_pratos);
         navigation.navigate("InviteFriends", {
           value: value,
           prato: id_pratos,

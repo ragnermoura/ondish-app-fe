@@ -201,6 +201,7 @@ export default ({ route }) => {
               if (convidados.length > 0) {
                 alert("Você selecionou alguém para convidar");
               } else {
+                console.log(prato);
                 navigation.navigate("AddOrder", {
                   quantidade: 1,
                   prato: prato,

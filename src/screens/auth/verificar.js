@@ -46,7 +46,8 @@ export default ({ route }) => {
     const code = `${input1}${input2}${input3}${input4}`;
     api.sendValidationCode(id, code).then((res) => {
       if (res.status === 200) {
-        navigation.navigate("Endereco");
+        // navigation.navigate("Endereco");
+        navigation.navigate("Login");
       } else {
         alert("Código incorreto!");
       }

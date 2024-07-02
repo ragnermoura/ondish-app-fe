@@ -146,7 +146,7 @@ export default {
     }
   },
 
-  sendCodeRes: async (id) => {
+  getRestaurant: async (id) => {
     try {
       const response = await http.get(`/restaurante/${id}`, {
         headers: {

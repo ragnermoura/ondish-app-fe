@@ -29,6 +29,7 @@ export default () => {
           // criar a logica de cadastro do perfil junto do registrar e salvar no asyncStorage
           navigation.navigate("Login");
           // navigation.navigate("MainTab", { screen: "OrderInTheRestaurant" });
+          // navigation.navigate("AddOrder");
         } else {
           navigation.reset({
             routes: [{ name: "MainTab" }],

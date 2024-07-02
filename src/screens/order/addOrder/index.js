@@ -46,11 +46,17 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default ({ route }) => {
   const { prato, value, id_restaurant, quantidade } = route.params;
+  // const prato = 1;
+  // const value = 30.0;
+  // const id_restaurant = 1;
+  // const quantidade = 1;
+  // console.log(prato, value, id_restaurant, quantidade);
 
   const [addInstructions, setAddInstructions] = useState("");
   const [quantityOrder, setQuantityOrder] = useState(1);
   const [initialValue, setInitialValue] = useState(value);
   const [orderValue, setOrderValue] = useState(value);
+  const [additionalValue, setAdditionalValue] = useState(0);
   const [checked, setChecked] = useState(false);
   const [nameOption, setNameOption] = useState("");
   const [checked2, setChecked2] = useState(false);
@@ -59,20 +65,24 @@ export default ({ route }) => {
   const [bebida, setBebida] = useState(null);
 
   useEffect(() => {
-    api.getPlates(prato).then((res) => {
+    api.getPlates(id_restaurant).then((res) => {
       if (res) {
-        setPlate(res.data);
+        res.data.map((e) => {
+          if (e.id_pratos === prato) {
+            setPlate(e);
+          }
+        });
       } else {
-        alert("Erro", "Erro ao buscar prato");
+        alert("Erro ao buscar prato");
       }
     });
-    api.getBebida(id_restaurant).then((res) => {
-      if (res) {
-        setBebida(res.data);
-      } else {
-        alert("Erro", "Erro ao buscar bebida");
-      }
-    });
+    // api.getBebida(id_restaurant).then((res) => {
+    //   if (res) {
+    //     setBebida(res.data);
+    //   } else {
+    //     alert("Erro", "Erro ao buscar bebida");
+    //   }
+    // });
   }, []);
 
   const handleCheckout = () => {
@@ -102,9 +112,6 @@ export default ({ route }) => {
     }
   };
 
-  // console.log(plate);
-  // console.log(bebida);
-
   const selectOption = (e) => {
     if (nameOption == "" && checked == false) {
       setChecked(true);
@@ -121,11 +128,23 @@ export default ({ route }) => {
     if (nameOption2 == "" && checked2 == false) {
       setChecked2(true);
       setNameOption2(e.titulo);
-    } else if (e.titulo != nameOption2 && checked2 == true) {
-      alert("Outra opção ja foi selecionada!");
+
+      const additional = parseFloat(e.valorAdicional.replace(/,/g, "."));
+      const newValue = parseFloat(orderValue) + parseFloat(additional);
+      setAdditionalValue(
+        parseFloat(additionalValue) + parseFloat(additional).toFixed(2)
+      );
+      setOrderValue(newValue.toFixed(2));
     } else if (e.titulo == nameOption2 && checked2 == true) {
       setChecked2(false);
       setNameOption2("");
+
+      const additional = parseFloat(e.valorAdicional.replace(/,/g, "."));
+      const newValue = parseFloat(orderValue) - parseFloat(additional);
+      setAdditionalValue(
+        parseFloat(additionalValue) - parseFloat(additional).toFixed(2)
+      );
+      setOrderValue(newValue.toFixed(2));
     }
   };
 
@@ -133,7 +152,10 @@ export default ({ route }) => {
 
   const addQuantityOrder = () => {
     setQuantityOrder(quantityOrder + 1);
-    setOrderValue((initialValue * (quantityOrder + 1)).toFixed(2));
+    const newValue = initialValue * (quantityOrder + 1);
+    setOrderValue(
+      (parseFloat(newValue) + parseFloat(additionalValue)).toFixed(2)
+    );
   };
 
   const removeQuantityOrder = () => {
@@ -141,7 +163,10 @@ export default ({ route }) => {
       alert("Você precisa pedir pelo menos 1!");
     } else {
       setQuantityOrder(quantityOrder - 1);
-      setOrderValue((initialValue * (quantityOrder - 1)).toFixed(2));
+      const newValue = initialValue * (quantityOrder - 1);
+      setOrderValue(
+        (parseFloat(newValue) + parseFloat(additionalValue)).toFixed(2)
+      );
     }
   };
 
@@ -166,18 +191,7 @@ export default ({ route }) => {
           <InfoFood>
             <Title>{plate.titulo}</Title>
             <Description>{plate.descricao}</Description>
-            {/* <SubTitle>
-              Chinese{" "}
-              <Image
-                source={require("../../../../assets/icons/iconPoint.png")}
-              />{" "}
-              American{" "}
-              <Image
-                source={require("../../../../assets/icons/iconPoint.png")}
-              />{" "}
-              Deshi food
-            </SubTitle> */}
-            <SubTitle>Nome dos convidados</SubTitle>
+            {quantidade === 1 ? null : <SubTitle>Nome dos convidados</SubTitle>}
           </InfoFood>
           <OptionsCard>
             <HeaderCard>
@@ -188,6 +202,7 @@ export default ({ route }) => {
             </HeaderCard>
             <View>
               {plate.opcoes.map((e, index) => {
+                // console.log(e);
                 return (
                   <Options key={index}>
                     <CheckCard
@@ -216,9 +231,9 @@ export default ({ route }) => {
           </OptionsCard>
           <OptionsCard>
             <HeaderCard>
-              <TitleOptions>Escolha a Bebida</TitleOptions>
+              <TitleOptions>Escolha a melhor opção para o prato</TitleOptions>
               <RequiredCard>
-                <RequiredText>REQUIRED</RequiredText>
+                <RequiredText>OPCIONAL</RequiredText>
               </RequiredCard>
             </HeaderCard>
             <View>
@@ -243,7 +258,17 @@ export default ({ route }) => {
                         }}
                       ></Check>
                     </CheckCard>
-                    <Name>{e.titulo}</Name>
+                    <View
+                      style={{
+                        alignItems: "center",
+                        flexDirection: "row",
+                        width: "80%",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <Name>{e.titulo}</Name>
+                      <Name>{`€ ${e.valorAdicional}`}</Name>
+                    </View>
                   </Options>
                 );
               })}
@@ -267,6 +292,7 @@ export default ({ route }) => {
                       ></Check>
                     </CheckCard>
                     <Name>{e.titulo}</Name>
+                    <Name>{`€ ${e.valorAdicional}`}</Name>
                   </Options>
                 );
               })} */}
