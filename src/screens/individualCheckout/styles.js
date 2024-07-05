@@ -41,10 +41,14 @@ export const InfoText = styled.Text`
   font-weight: 500;
   color: ${config.colors.black};
   padding: 6px 0;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
 `;
 
 export const InfoTextHighlighted = styled.Text`
   color: ${config.colors.red};
+  margin-right: 8px;
 `;
 
 export const PerfilCard = styled.View`
@@ -112,15 +116,18 @@ export const IconCard = styled.View`
   justify-content: center;
 `;
 
-export const ViewMesa = styled.View`
-  padding: 10px 20px;
-  border-radius: 10px;
+export const ViewInfo = styled.View`
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
+`;
+
+export const ViewMesa = styled.View`
+  padding: 1px 10px;
+  border-radius: 10px;
 `;
 
 export const TextMesa = styled.Text`
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
   color: #fff;
 `;

@@ -259,7 +259,8 @@ export default {
     arrayConvidados,
     id_anfitriao,
     eventName,
-    id_restaurant
+    id_restaurant,
+    mesa
   ) => {
     console.log(arrayConvidados);
     try {
@@ -276,6 +277,7 @@ export default {
           }),
           nome_sala: eventName,
           id_restaurante: id_restaurant,
+          numero_mesa: mesa,
         },
         {
           headers: {
@@ -324,6 +326,22 @@ export default {
     }
   },
 
+  verificaConvidadoSemId: async () => {
+    try {
+      const response = await http.get(`/sala`, {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Headers": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+        },
+      });
+      return response;
+    } catch (error) {
+      return error.response || error.message || error;
+    }
+  },
+
   cancelSala: async (id) => {
     try {
       const response = await http.delete(`/sala/${id}`, {
@@ -350,6 +368,28 @@ export default {
           "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
         },
       });
+      return response;
+    } catch (error) {
+      return error.response || error.message || error;
+    }
+  },
+
+  aceiteConvite: async (id, id_user, status) => {
+    try {
+      const response = await http.put(
+        `/sala/convite/${id}/${id_user}`,
+        {
+          status: status,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT",
+          },
+        }
+      );
       return response;
     } catch (error) {
       return error.response || error.message || error;

@@ -4,7 +4,7 @@
     "slug": "ondish-app-fe",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icons/iconCheck.png",
+    "icon": "./assets/icons/ondishIcon.png",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/Banner.png",

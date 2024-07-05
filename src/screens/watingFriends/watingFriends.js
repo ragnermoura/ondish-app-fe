@@ -28,6 +28,7 @@ export default ({ route }) => {
     convidados,
     salaInfo,
     isBebida,
+    table,
   } = route.params;
   const [anfitriao, setAnfitriao] = useState(anfi);
   const [convidadosState, setConvidadosState] = useState(convidados);
@@ -47,6 +48,8 @@ export default ({ route }) => {
         value: value,
         id_restaurant: id_restaurant,
         isBebida: isBebida,
+        table: table,
+        sala: salaInfo.sala.id_sala,
       });
     }
   };

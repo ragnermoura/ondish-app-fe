@@ -16,6 +16,7 @@ export default ({
   bebida,
   sala,
   salaInfo,
+  mesa,
 }) => {
   const navigation = useNavigation();
 
@@ -35,12 +36,14 @@ export default ({
           });
         } else {
           if (salaInfo == "convidado") {
+            // console.log("Order: ", mesa);
             navigation.navigate("AddOrder", {
               value: value,
               prato: id_pratos,
               id_restaurant: id_restaurant,
               isBebida: bebida,
-              sala: sala,
+              sala: salaInfo.sala.id_sala,
+              table: mesa,
             });
           }
           // ver se e esse caminho mesmo

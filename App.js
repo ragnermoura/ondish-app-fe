@@ -1,5 +1,5 @@
-import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import React, { useEffect, useRef, useState } from "react";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import MainStack from "./src/stacks/MainStack";
 import UserContextProvider from "./src/contexts/UserContext";
 import { StatusBar } from "react-native";

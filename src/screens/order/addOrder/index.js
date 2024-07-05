@@ -51,7 +51,7 @@ import Carousel from "react-native-snap-carousel";
 const { width: screenWidth } = Dimensions.get("window");
 
 export default ({ route }) => {
-  const { prato, value, id_restaurant, quantidade, isBebida, sala } =
+  const { prato, value, id_restaurant, quantidade, isBebida, sala, table } =
     route.params;
   // const prato = 1;
   // const value = 30.0;
@@ -118,17 +118,21 @@ export default ({ route }) => {
       id_restaurant: id_restaurant,
     });
     if (isBebida == true) {
+      // console.log(table);
       navigation.navigate("IndividualCheckout", {
         quantidade: quantidade,
         sala: sala,
+        table: table,
       });
     } else {
       if (nameOption == "" && nameOption2 == "") {
         alert("Selecione as opções do pedido!");
       } else {
+        // console.log(table);
         navigation.navigate("IndividualCheckout", {
           quantidade: quantidade,
           sala: sala,
+          table: table,
         });
       }
     }

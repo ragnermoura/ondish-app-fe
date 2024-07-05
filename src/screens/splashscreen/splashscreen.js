@@ -33,7 +33,7 @@ export default () => {
           navigation.navigate("Welcome");
           // navigation.navigate("InviteFriends");
           // navigation.navigate("WatingFriends");
-          // navigation.navigate("AceitarConvite");
+          // navigation.navigate("IndividualCheckout");
         } else {
           navigation.reset({
             routes: [{ name: "MainTab" }],

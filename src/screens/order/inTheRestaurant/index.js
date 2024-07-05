@@ -26,7 +26,7 @@ export default ({ route }) => {
   const [bebidasRes, setBebidasRes] = useState(null);
 
   const navigation = useNavigation();
-  const { id, sala, salaInfo } = route.params;
+  const { id, sala, salaInfo, table } = route.params;
   // console.log(id);
   // const id = 1;
 
@@ -86,6 +86,7 @@ export default ({ route }) => {
   if (infoRes) {
     // console.log(platesRes);
     // console.log(infoRes);
+    // console.log("restaurante: ", table);
     let avaliation = 0;
     let avaliationValue = 0;
     if (infoRes.avaliacoes.length == 0) {
@@ -151,8 +152,11 @@ export default ({ route }) => {
                           img={e.fotos[0].foto}
                           id_restaurant={e.id_restaurante}
                           bebida={false}
-                          sala={sala == null ? null : sala}
-                          salaInfo={sala == null ? null : salaInfo}
+                          sala={sala == null || sala == undefined ? null : sala}
+                          salaInfo={
+                            sala == null || sala == undefined ? null : salaInfo
+                          }
+                          mesa={table}
                         />
                       );
                     }
@@ -174,8 +178,11 @@ export default ({ route }) => {
                           img={e.fotos[0].foto}
                           id_restaurant={e.id_restaurante}
                           bebida={false}
-                          sala={sala == null ? null : sala}
-                          salaInfo={sala == null ? null : salaInfo}
+                          sala={sala == null || sala == undefined ? null : sala}
+                          salaInfo={
+                            sala == null || sala == undefined ? null : salaInfo
+                          }
+                          mesa={table}
                         />
                       );
                     }
@@ -197,8 +204,11 @@ export default ({ route }) => {
                         img={e.fotos.length == 0 ? null : e.fotos[0].foto}
                         id_restaurant={e.id_restaurante}
                         bebida={true}
-                        sala={sala == null ? null : sala}
-                        salaInfo={sala == null ? null : salaInfo}
+                        sala={sala == null || sala == undefined ? null : sala}
+                        salaInfo={
+                          sala == null || sala == undefined ? null : salaInfo
+                        }
+                        mesa={table}
                       />
                     );
                   })

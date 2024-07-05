@@ -20,6 +20,7 @@ import {
   IconCard,
   TextMesa,
   ViewMesa,
+  ViewInfo,
 } from "./styles";
 import {
   Image,
@@ -51,7 +52,9 @@ export default ({ route }) => {
     setPedido(name, value, opcao1, opcao2, id_restaurant);
   };
 
-  const { quantidade, sala, mesa } = route.params;
+  const { quantidade, sala, table } = route.params;
+
+  // console.log(quantidade, sala, table);
 
   useEffect(() => {
     const getObject = async (key) => {
@@ -87,10 +90,32 @@ export default ({ route }) => {
   }, [pedido]);
 
   const handleCheckout = () => {
+    //cserver para continuar a logica
+    // if (quantidade == 1) {
+    //   navigation.navigate("CheckoutFinal", { quantidade: 1 });
+    // } else {
+    //   navigation.navigate("CheckoutFinal", { quantidade: quantidade });
+    // }
     if (quantidade == 1) {
-      navigation.navigate("CheckoutFinal", { quantidade: 1 });
+      navigation.reset({
+        routes: [
+          {
+            name: "MainTab",
+          },
+        ],
+      });
     } else {
-      navigation.navigate("CheckoutFinal", { quantidade: quantidade });
+      api.cancelSala(sala).then((res) => {
+        console.log(res);
+        Alert.alert("Boa!", "Sala cancelada!");
+        navigation.reset({
+          routes: [
+            {
+              name: "MainTab",
+            },
+          ],
+        });
+      });
     }
   };
 
@@ -114,60 +139,62 @@ export default ({ route }) => {
               Restaurante:{" "}
               <InfoTextHighlighted>
                 {infoRes.nome_restaurante}
+                {/* teste */}
               </InfoTextHighlighted>
             </InfoText>
             <InfoText>
               Pedido nº:{" "}
               <InfoTextHighlighted>{randomNumber}</InfoTextHighlighted>
             </InfoText>
-            <InfoText>
-              {/* criar um filtro que mostra quais mesas estao disponiveis com base no que vem da api  */}
-              Mesa: <InfoTextHighlighted>{mesa.numero}</InfoTextHighlighted>{" "}
+            <ViewInfo>
+              <InfoText>
+                Mesa: <InfoTextHighlighted>{table.numero}</InfoTextHighlighted>{" "}
+              </InfoText>
               <ViewMesa
                 style={{
                   backgroundColor:
-                    mesa.localizacao === 1 ? "#BFD9FE" : "#ed2024",
+                    table.localizacao === 1 ? "#96B4E6" : "#ed2024",
                 }}
               >
                 <TextMesa>
-                  {mesa.localizacao === 1 ? "dentro" : "fora"}
+                  {table.localizacao === 1 ? "Dentro" : "Fora"}
                 </TextMesa>
               </ViewMesa>
-            </InfoText>
+            </ViewInfo>
           </InfoCard>
           <Title>Pedidos na mesa</Title>
-          {quantidade == "1" ? (
-            <View>
-              <PerfilCard>
-                {perfil.perfil.avatar == "/avatar/default-avatar.png" ? (
-                  <IconCard>
-                    <IconUser />
-                  </IconCard>
-                ) : (
-                  <PerfilImg
-                    source={{
-                      uri: `${baseUrl}/public/${perfil.perfil.avatar}`,
-                    }}
-                  />
-                )}
-                <PerfilName>
-                  {perfil.perfil.nome} {perfil.perfil.sobrenome}
-                </PerfilName>
-              </PerfilCard>
-              <CardOrder>
-                <OrderCheckout
-                  number={1}
-                  title={pedido.name}
-                  text={
-                    pedido.opcao2 == "" && pedido.opcao1 == ""
-                      ? ""
-                      : `${pedido.opcao1}, ${pedido.opcao2}`
-                  }
-                  value={`${pedido.value}€`}
+          {/* {quantidade == "1" ? ( */}
+          <View>
+            <PerfilCard>
+              {perfil.perfil.avatar == "/avatar/default-avatar.png" ? (
+                <IconCard>
+                  <IconUser />
+                </IconCard>
+              ) : (
+                <PerfilImg
+                  source={{
+                    uri: `${baseUrl}/public/${perfil.perfil.avatar}`,
+                  }}
                 />
-              </CardOrder>
-            </View>
-          ) : (
+              )}
+              <PerfilName>
+                {perfil.perfil.nome} {perfil.perfil.sobrenome}
+              </PerfilName>
+            </PerfilCard>
+            <CardOrder>
+              <OrderCheckout
+                number={1}
+                title={pedido.name}
+                text={
+                  pedido.opcao2 == "" && pedido.opcao1 == ""
+                    ? ""
+                    : `${pedido.opcao1}, ${pedido.opcao2}`
+                }
+                value={`${pedido.value}€`}
+              />
+            </CardOrder>
+          </View>
+          {/* ) : (
             <View>
               <View>
                 <PerfilCard>
@@ -198,10 +225,10 @@ export default ({ route }) => {
                     value={`${pedido.value}€`}
                   />
                 </CardOrder>
-              </View>
+              </View> */}
 
-              {/* terminar a logica abaixo quando estiver feito a parte de convidar outras pessoas */}
-              {/* {Number(quantidade) > 1
+          {/* terminar a logica abaixo quando estiver feito a parte de convidar outras pessoas */}
+          {/* {Number(quantidade) > 1
                 ? () => {
                     for (let i = 0; i <= quantidade; i++) {
                       console.log("entrou aqui");
@@ -228,12 +255,13 @@ export default ({ route }) => {
                     }
                   }
                 : console.log("entrou aqui 1")} */}
-            </View>
-          )}
+          {/* </View>
+          )} */}
 
           <SubTotalCard>
             <SubTotalTitle>SubTotal</SubTotalTitle>
             <SubTotalValue>{subTotal}€</SubTotalValue>
+            {/* <SubTotalValue>10€</SubTotalValue> */}
           </SubTotalCard>
 
           <BoxButton>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import Header from "../components/header/headerAuth";
 import Splashscreen from "../screens/splashscreen/splashscreen";
@@ -29,114 +29,179 @@ import Cards from "../screens/cards";
 import AddCards from "../screens/addCards";
 import WatingFriends from "../screens/watingFriends/watingFriends";
 import AceitarConvite from "../screens/auth/aceitarConvite";
+import api from "../../services/auth/index";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 
 const Stack = createStackNavigator();
 
-export default () => (
-  <Stack.Navigator
-    initialRouteName="Splashscreen"
-    screenOptions={{
-      headerShown: true,
-    }}
-  >
-    <Stack.Screen
-      name="Splashscreen"
-      component={Splashscreen}
-      options={{
-        headerShown: false,
-      }}
-    />
-    <Stack.Screen
-      name="Login"
-      component={Login}
-      options={{
-        header: () => <Header title={"Login"} />,
-      }}
-    />
-    <Stack.Screen
-      name="AceitarConvite"
-      component={AceitarConvite}
-      options={{
-        headerShown: false,
-      }}
-    />
-    <Stack.Screen
-      name="Welcome"
-      component={Welcome}
-      options={{
-        headerShown: false,
-      }}
-    />
-    <Stack.Screen
-      name="Redefinir"
-      component={Redefinir}
-      options={{
-        header: () => <Header title={"Redefinir"} />,
-      }}
-    />
-    <Stack.Screen
-      name="Recuperar"
-      component={Recuperar}
-      options={{
-        header: () => <Header title={"Recuperar senha"} />,
-      }}
-    />
-    <Stack.Screen
-      name="Registar"
-      component={Registar}
-      options={{
-        header: () => <Header title={"Criar Conta"} />,
-      }}
-    />
+export default () => {
+  const intervalIdRefs = useRef(null);
+  const [perfils, setPerfils] = useState(null);
+  const [user, setUser] = useState(null);
 
-    <Stack.Screen
-      name="Endereco"
-      component={Endereco}
-      options={{
-        header: () => <Header title={"Localização"} />,
-      }}
-    />
+  const navigation = useNavigation();
 
-    <Stack.Screen
-      name="Verificar"
-      component={Verificar}
-      options={{
-        header: () => <Header title={"Verificar para Ondish"} />,
-      }}
-    />
+  const getObject = async (key) => {
+    try {
+      const jsonValue = await AsyncStorage.getItem(key);
+      return jsonValue != null ? JSON.parse(jsonValue) : null;
+    } catch (error) {
+      console.error("Error retrieving object", error);
+    }
+    return null;
+  };
 
-    <Stack.Screen
-      name="VerificarEmail"
-      component={VerificarEmail}
-      options={{
-        header: () => <Header title={"Verificar para Ondish"} />,
-      }}
-    />
+  useEffect(() => {
+    intervalIdRefs.current = setInterval(async () => {
+      // console.log("teste");
+      const perfil = await getObject("perfil");
+      if (perfil != null) {
+        setPerfils(perfil);
+      }
+    }, 5000);
 
-    <Stack.Screen
-      name="NovaSenha"
-      component={NovaSenha}
-      options={{
-        header: () => <Header title={"Definir Nova senha"} />,
-      }}
-    />
+    return () => clearInterval(intervalIdRefs.current); // Limpar o intervalo na desmontagem do componente
+  }, []);
 
-    <Stack.Screen
-      name="AddNum"
-      component={AddNum}
-      options={{
-        header: () => <Header title={"Adicionar Número"} />,
-      }}
-    />
-    <Stack.Screen
-      name="QrcodeScreen"
-      component={QrcodeScreen}
-      options={{
-        header: () => <Header />,
-      }}
-    />
+  useEffect(() => {
+    const verificaConvidado = async () => {
+      const res = await api.verificaConvidadoSemId();
+      if (res.status === 200 && perfils) {
+        res.data.forEach((sala) => {
+          sala.convidados.forEach(async (convidado) => {
+            if (convidado.id_user === perfils.perfil.id_user) {
+              clearInterval(intervalIdRefs.current);
+              const usuario = await api.getPerfil();
+              usuario.data.response.forEach((a) => {
+                if (a.id_user === convidado.id_user) {
+                  navigation.reset({
+                    routes: [
+                      {
+                        name: "AceitarConvite",
+                        params: {
+                          sala: convidado.tb_sala_convidado.id_sala,
+                          salaInfo: "convidado",
+                        },
+                      },
+                    ],
+                  });
+                }
+              });
+            }
+          });
+        });
+      }
+    };
 
-    {/* <Stack.Screen
+    verificaConvidado();
+  }, [perfils]);
+
+  return (
+    <Stack.Navigator
+      initialRouteName="Splashscreen"
+      screenOptions={{
+        headerShown: true,
+      }}
+    >
+      <Stack.Screen
+        name="Splashscreen"
+        component={Splashscreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{
+          header: () => <Header title={"Login"} />,
+        }}
+      />
+      <Stack.Screen
+        name="AceitarConvite"
+        component={AceitarConvite}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Welcome"
+        component={Welcome}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Redefinir"
+        component={Redefinir}
+        options={{
+          header: () => <Header title={"Redefinir"} />,
+        }}
+      />
+      <Stack.Screen
+        name="Recuperar"
+        component={Recuperar}
+        options={{
+          header: () => <Header title={"Recuperar senha"} />,
+        }}
+      />
+      <Stack.Screen
+        name="Registar"
+        component={Registar}
+        options={{
+          header: () => <Header title={"Criar Conta"} />,
+        }}
+      />
+
+      <Stack.Screen
+        name="Endereco"
+        component={Endereco}
+        options={{
+          header: () => <Header title={"Localização"} />,
+        }}
+      />
+
+      <Stack.Screen
+        name="Verificar"
+        component={Verificar}
+        options={{
+          header: () => <Header title={"Verificar para Ondish"} />,
+        }}
+      />
+
+      <Stack.Screen
+        name="VerificarEmail"
+        component={VerificarEmail}
+        options={{
+          header: () => <Header title={"Verificar para Ondish"} />,
+        }}
+      />
+
+      <Stack.Screen
+        name="NovaSenha"
+        component={NovaSenha}
+        options={{
+          header: () => <Header title={"Definir Nova senha"} />,
+        }}
+      />
+
+      <Stack.Screen
+        name="AddNum"
+        component={AddNum}
+        options={{
+          header: () => <Header title={"Adicionar Número"} />,
+        }}
+      />
+      <Stack.Screen
+        name="QrcodeScreen"
+        component={QrcodeScreen}
+        options={{
+          header: () => <Header />,
+        }}
+      />
+
+      {/* <Stack.Screen
       name="OrderInTheRestaurant"
       component={InTheRestaurant}
       options={{
@@ -144,57 +209,61 @@ export default () => (
       }}
     /> */}
 
-    <Stack.Screen
-      name="AddOrder"
-      component={AddOrder}
-      options={{
-        headerShown: false,
-      }}
-    />
+      <Stack.Screen
+        name="AddOrder"
+        component={AddOrder}
+        options={{
+          headerShown: false,
+        }}
+      />
 
-    <Stack.Screen
-      name="IndividualCheckout"
-      component={IndividualCheckout}
-      options={{
-        header: () => (
-          <HeaderOrder iconLeft={"close"} iconRight={"close"} title={"Mesa"} />
-        ),
-      }}
-    />
+      <Stack.Screen
+        name="IndividualCheckout"
+        component={IndividualCheckout}
+        options={{
+          header: () => (
+            <HeaderOrder
+              iconLeft={"close"}
+              iconRight={"close"}
+              title={"Resumo"}
+            />
+          ),
+        }}
+      />
 
-    <Stack.Screen
-      name="InviteFriends"
-      component={InviteFriends}
-      options={{
-        header: () => <HeaderOrder iconRight={"close"} />,
-      }}
-    />
+      <Stack.Screen
+        name="InviteFriends"
+        component={InviteFriends}
+        options={{
+          header: () => <HeaderOrder iconRight={"close"} />,
+        }}
+      />
 
-    <Stack.Screen
-      name="WatingFriends"
-      component={WatingFriends}
-      options={{
-        header: () => <HeaderOrder iconRight={"close"} />,
-      }}
-    />
+      <Stack.Screen
+        name="WatingFriends"
+        component={WatingFriends}
+        options={{
+          header: () => <HeaderOrder iconRight={"close"} />,
+        }}
+      />
 
-    <Stack.Screen
-      name="ExchangeOrders"
-      component={ExchangeOrders}
-      options={{
-        header: () => <HeaderComp />,
-      }}
-    />
+      <Stack.Screen
+        name="ExchangeOrders"
+        component={ExchangeOrders}
+        options={{
+          header: () => <HeaderComp />,
+        }}
+      />
 
-    <Stack.Screen
-      name="SplitAccount"
-      component={SplitAccount}
-      options={{
-        header: () => <HeaderComp />,
-      }}
-    />
+      <Stack.Screen
+        name="SplitAccount"
+        component={SplitAccount}
+        options={{
+          header: () => <HeaderComp />,
+        }}
+      />
 
-    {/* <Stack.Screen
+      {/* <Stack.Screen
       name="SelectedPerson"
       component={SelectedPerson}
       options={{
@@ -202,56 +271,57 @@ export default () => (
       }}
     /> */}
 
-    <Stack.Screen
-      name="CheckoutFinal"
-      component={CheckoutFinal}
-      options={{
-        header: () => (
-          <HeaderOrder
-            iconRight={"close"}
-            iconLeft={"close"}
-            title={"Check-out"}
-          />
-        ),
-      }}
-    />
+      <Stack.Screen
+        name="CheckoutFinal"
+        component={CheckoutFinal}
+        options={{
+          header: () => (
+            <HeaderOrder
+              iconRight={"close"}
+              iconLeft={"close"}
+              title={"Check-out"}
+            />
+          ),
+        }}
+      />
 
-    <Stack.Screen
-      name="PaymentMethod"
-      component={PaymentMethod}
-      options={{
-        header: () => (
-          <HeaderOrder
-            iconRight={"close"}
-            iconLeft={"close"}
-            title={"Forma de pagamento"}
-          />
-        ),
-      }}
-    />
+      <Stack.Screen
+        name="PaymentMethod"
+        component={PaymentMethod}
+        options={{
+          header: () => (
+            <HeaderOrder
+              iconRight={"close"}
+              iconLeft={"close"}
+              title={"Forma de pagamento"}
+            />
+          ),
+        }}
+      />
 
-    <Stack.Screen
-      name="Cards"
-      component={Cards}
-      options={{
-        header: () => <HeaderComp title={"Métodos de Pagamento"} />,
-      }}
-    />
+      <Stack.Screen
+        name="Cards"
+        component={Cards}
+        options={{
+          header: () => <HeaderComp title={"Métodos de Pagamento"} />,
+        }}
+      />
 
-    <Stack.Screen
-      name="AddCards"
-      component={AddCards}
-      options={{
-        header: () => <HeaderComp />,
-      }}
-    />
+      <Stack.Screen
+        name="AddCards"
+        component={AddCards}
+        options={{
+          header: () => <HeaderComp />,
+        }}
+      />
 
-    <Stack.Screen
-      name="MainTab"
-      component={MainTab}
-      options={{
-        headerShown: false,
-      }}
-    />
-  </Stack.Navigator>
-);
+      <Stack.Screen
+        name="MainTab"
+        component={MainTab}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </Stack.Navigator>
+  );
+};

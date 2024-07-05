@@ -2,6 +2,9 @@ import React from "react";
 import styled from "styled-components/native";
 import config from "../../../assets/config.json";
 import ArrowBack from "../../../assets/icons/iconArrowRight.svg";
+import { Dimensions } from "react-native";
+
+const { height } = Dimensions.get("window");
 
 export const Container = styled.SafeAreaView`
   padding: 5%;
@@ -9,15 +12,20 @@ export const Container = styled.SafeAreaView`
   flex: 1;
   align-items: center;
   justify-content: space-between;
+  position: relative;
+  min-height: ${height - 60}px;
 `;
 
 export const BoxInfo = styled.View`
-  width: 100%;
+  align-self: center;
+  width: 85%;
   align-items: center;
 `;
 
 export const ImgGift = styled.Image`
   margin: -15px 0 0 0;
+  margin-bottom: 20px;
+  border-radius: 10px;
 `;
 // tava 30px no lugar do -15px
 
@@ -134,9 +142,10 @@ export const InvitedPersonText = styled.Text`
 
 export const TitleEvent = styled.Text`
   color: #000;
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 24px;
+  font-weight: bold;
   margin-bottom: 5px;
+  text-align: center;
 `;
 
 export const InputEvent = styled.TextInput`
@@ -147,12 +156,90 @@ export const InputEvent = styled.TextInput`
   padding-left: 20px;
 `;
 
+export const InputEvents = styled.Text`
+  font-size: 18px;
+  font-weight: 500;
+  color: #000;
+`;
+
+export const InputAreaEvent = styled.View`
+  width: 100%;
+  background-color: ${config.colors.input};
+  height: 50px;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const ViewEvent = styled.View`
   margin-bottom: 10px;
+  width: 100%;
+  align-items: center;
+`;
+
+export const ViewMesaInput = styled.View`
+  margin-bottom: 20px;
+  align-items: center;
   width: 90%;
 `;
 
 export const ViewMesa = styled.View`
-  margin-bottom: 20px;
   width: 90%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  align-self: center;
+  height: 200px;
+  align-items: flex-start;
+`;
+
+export const Mesa = styled.TouchableOpacity`
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+`;
+
+export const MesaText = styled.Text`
+  font-size: 18px;
+  font-weight: 500;
+  color: #000;
+`;
+
+export const ViewMesaOptions = styled.View`
+  flex-direction: row;
+  margin-top: 10px;
+  justify-content: space-between;
+  width: 50%;
+`;
+
+export const OptionsMesaInside = styled.View`
+  background-color: #96b4e6;
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  align-items: center;
+  justify-content: center;
+`;
+export const OptionsMesaOut = styled.View`
+  background-color: #ed2024;
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const TextOptionsInside = styled.Text`
+  color: #000;
+  font-size: 14px;
+  font-weight: 500;
+`;
+
+export const TextOptionsOut = styled.Text`
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
 `;

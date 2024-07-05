@@ -174,7 +174,7 @@ export default ({ route }) => {
   };
 
   const handleRecovery = () => {
-    navigation.navigate("Redefinir");
+    // navigation.navigate("Redefinir");
   };
 
   return (

@@ -20,6 +20,18 @@ import {
   TitleEvent,
   ViewEvent,
   ViewMesa,
+  ViewMesaInput,
+  Mesa,
+  MesaText,
+  InputEvents,
+  InputAreaEvent,
+  ViewMesaOptions,
+  OptionsMesa,
+  TextOptions,
+  OptionsMesaInside,
+  OptionsMesaOut,
+  TextOptionsInside,
+  TextOptionsOut,
 } from "./styles";
 import {
   Image,
@@ -33,6 +45,7 @@ import {
   StyleSheet,
   ImageBackground,
   TouchableOpacity,
+  SafeAreaView,
 } from "react-native";
 import MainButton from "../../components/buttons/mainButton";
 import SearchInput from "../../components/input/searchInput";
@@ -42,7 +55,7 @@ import { baseUrl } from "../../../services/config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import IconUser from "../../../assets/icons/profile.svg";
 import debounce from "lodash.debounce";
-import Carousel from "react-native-snap-carousel";
+import Carousel, { Pagination } from "react-native-snap-carousel";
 
 const { height, width: viewportWidth } = Dimensions.get("window");
 
@@ -93,7 +106,7 @@ export default ({ route }) => {
 
   const carouselRef = useRef(null);
   const [activeSlide, setActiveSlide] = useState(0);
-  const [activeDotIndex, setActiveDotIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [scrollEnabled, setScrollEnabled] = useState(true);
 
   const { value, prato, id_restaurant, isBebida } = route.params;
@@ -134,8 +147,9 @@ export default ({ route }) => {
       if (eventName == "") {
         Alert.alert("Ops...", "Você não informou o nome da sala!");
       } else {
+        console.log("numero da mesa: ", table.numero);
         api
-          .sendConvidado(convidados, 4, eventName, id_restaurant)
+          .sendConvidado(convidados, 4, eventName, id_restaurant, table.numero)
           .then((res) => {
             if (res) {
               console.log(res.data);
@@ -177,6 +191,10 @@ export default ({ route }) => {
     }
   };
 
+  const handleTable = (mesa) => {
+    setTable(mesa);
+  };
+
   useEffect(() => {
     api.getTable(id_restaurant).then((res) => {
       // setTable([...table, res.data]);
@@ -204,11 +222,14 @@ export default ({ route }) => {
     },
   ];
 
-  const renderItem = ({ item }) => {
+  const renderItem = ({ item, index }) => {
     if (item.data == 1) {
       return (
         <BoxInfo>
-          <ImgGift source={item.image} style={{ width: 200, height: 200 }} />
+          <ImgGift
+            source={item.image}
+            style={{ width: 200, height: 200, alignSelf: "center" }}
+          />
           <Title>Qual o motivo de reunir os amigos?</Title>
           <ViewEvent>
             <InputEvent
@@ -223,185 +244,224 @@ export default ({ route }) => {
       return (
         <BoxInfo>
           <ImgGift source={item.image} style={{ width: 200, height: 200 }} />
-          <ViewMesa>
-            <TitleEvent>Mesa</TitleEvent>
-            <InputEvent
-              inputMode="numeric"
-              placeholder="Selecione a mesa"
-              onChangeText={(t) => setTable(t)}
-              value={table}
-            />
-          </ViewMesa>
+          <ViewMesaInput>
+            <TitleEvent>Escolha o melhor lugar para si</TitleEvent>
+            <InputAreaEvent>
+              <InputEvents>
+                {table == null ? "Escolha uma mesa" : table.numero}
+              </InputEvents>
+            </InputAreaEvent>
+            <ViewMesaOptions>
+              <OptionsMesaInside>
+                <TextOptionsInside>Dentro</TextOptionsInside>
+              </OptionsMesaInside>
+              <OptionsMesaOut>
+                <TextOptionsOut>Fora</TextOptionsOut>
+              </OptionsMesaOut>
+            </ViewMesaOptions>
+          </ViewMesaInput>
+          <ScrollView>
+            <ViewMesa>
+              {tables == null
+                ? null
+                : tables.map((mesa) => {
+                    return (
+                      <Mesa
+                        style={{
+                          backgroundColor:
+                            mesa.localizacao === 1 ? "#96B4E6" : "#ed2024",
+                        }}
+                        key={mesa.numero}
+                        onPress={() => handleTable(mesa)}
+                      >
+                        <MesaText
+                          style={{
+                            color: mesa.localizacao === 1 ? "#000" : "#fff",
+                          }}
+                        >
+                          {mesa.numero}
+                        </MesaText>
+                      </Mesa>
+                    );
+                  })}
+            </ViewMesa>
+          </ScrollView>
         </BoxInfo>
       );
     } else if (item.data == 3) {
       return (
-        <BoxInfo>
-          <ImgGift source={item.image} style={{ width: 200, height: 200 }} />
-          <Title>Convidar amigos para sua sala</Title>
-          <InputArea>
-            {/* <IconArrow fill="#444" />
-            <Input
-              placeholder="https://ui8.net/76738b"
-              placeholderTextColor={"#010f07"}
-            /> */}
-            <SearchInput
-              placeholder={"Digite o nome do convidado"}
-              value={input}
-              onChangeText={(t) => handleChange(t)}
-            />
-          </InputArea>
-          {pessoas.length != 0 ? (
-            pessoas.map((e, index) => {
-              // console.log(pessoas);
-              // if (input == e.nome) {
-              return (
-                <InviteFriendCard
-                  key={index}
-                  style={{ flexDirection: "row" }}
-                  onPress={() => handleAddConvidado(e)}
-                >
-                  {e.avatar == "/avatar/default-avatar.png" ? (
-                    <IconCard>
-                      <IconUser />
-                    </IconCard>
-                  ) : (
-                    <ImgFriend
-                      source={{ uri: `${baseUrl}/public/${e.avatar}` }}
-                    />
-                  )}
-
-                  <TextFriend>
-                    {e.nome} {e.sobrenome}
-                  </TextFriend>
-                </InviteFriendCard>
-              );
-              // } else {
-              //   return <View key={index}></View>;
-              // }
-            })
-          ) : (
-            <></>
-          )}
-          <InvitedPersonCard>
-            <InvitedPersonText>Pessoas Convidadas</InvitedPersonText>
-            {convidados.length != 0 ? (
-              convidados.map((c, index) => {
+        <ScrollView>
+          <BoxInfo>
+            <ImgGift source={item.image} style={{ width: 200, height: 200 }} />
+            <Title>Convidar amigos para sua sala</Title>
+            <InputArea>
+              <SearchInput
+                placeholder={"Digite o nome do convidado"}
+                value={input}
+                onChangeText={(t) => handleChange(t)}
+              />
+            </InputArea>
+            {pessoas.length != 0 ? (
+              pessoas.map((e, index) => {
+                // console.log(pessoas);
+                // if (input == e.nome) {
                 return (
                   <InviteFriendCard
                     key={index}
                     style={{ flexDirection: "row" }}
-                    onPress={() => {
-                      const updatedStatesArray = convidados.filter(
-                        (state) => state.nome !== c.nome
-                      );
-                      // Atualiza o estado com o novo array sem o estado excluído
-                      setConvidados(updatedStatesArray);
-                      setPessoas([]);
-                      setInput("");
-                    }}
+                    onPress={() => handleAddConvidado(e)}
                   >
-                    {c.avatar == "/avatar/default-avatar.png" ? (
+                    {e.avatar == "/avatar/default-avatar.png" ? (
                       <IconCard>
                         <IconUser />
                       </IconCard>
                     ) : (
                       <ImgFriend
-                        source={{ uri: `${baseUrl}/public/${c.avatar}` }}
+                        source={{ uri: `${baseUrl}/public/${e.avatar}` }}
                       />
                     )}
+
                     <TextFriend>
-                      {c.nome} {c.sobrenome}
+                      {e.nome} {e.sobrenome}
                     </TextFriend>
                   </InviteFriendCard>
                 );
+                // } else {
+                //   return <View key={index}></View>;
+                // }
               })
             ) : (
               <></>
             )}
-          </InvitedPersonCard>
-          <BoxButton>
-            <MainButton
-              text={"Convidar Amigos"}
-              onPress={() => handleInvite()}
-            />
-            <ButtonArea
-              onPress={() => {
-                if (convidados.length > 0) {
-                  alert("Você selecionou alguém para convidar");
-                } else {
-                  if (table == null) {
-                    Alert.alert("Ops...", "Você não selecionou a mesa!");
+            <InvitedPersonCard>
+              <InvitedPersonText>Pessoas Convidadas</InvitedPersonText>
+              {convidados.length != 0 ? (
+                convidados.map((c, index) => {
+                  return (
+                    <InviteFriendCard
+                      key={index}
+                      style={{ flexDirection: "row" }}
+                      onPress={() => {
+                        const updatedStatesArray = convidados.filter(
+                          (state) => state.nome !== c.nome
+                        );
+                        // Atualiza o estado com o novo array sem o estado excluído
+                        setConvidados(updatedStatesArray);
+                        setPessoas([]);
+                        setInput("");
+                      }}
+                    >
+                      {c.avatar == "/avatar/default-avatar.png" ? (
+                        <IconCard>
+                          <IconUser />
+                        </IconCard>
+                      ) : (
+                        <ImgFriend
+                          source={{ uri: `${baseUrl}/public/${c.avatar}` }}
+                        />
+                      )}
+                      <TextFriend>
+                        {c.nome} {c.sobrenome}
+                      </TextFriend>
+                    </InviteFriendCard>
+                  );
+                })
+              ) : (
+                <></>
+              )}
+            </InvitedPersonCard>
+            <BoxButton>
+              <MainButton
+                text={"Convidar Amigos"}
+                onPress={() => handleInvite()}
+              />
+              <ButtonArea
+                onPress={() => {
+                  if (convidados.length > 0) {
+                    alert("Você selecionou alguém para convidar");
                   } else {
-                    console.log(prato);
-                    navigation.navigate("AddOrder", {
-                      quantidade: 1,
-                      prato: prato,
-                      value: value,
-                      id_restaurant: id_restaurant,
-                      isBebida: isBebida,
-                      table: table,
-                    });
+                    if (table == null) {
+                      Alert.alert("Ops...", "Você não selecionou a mesa!");
+                    } else {
+                      console.log(prato);
+                      navigation.navigate("AddOrder", {
+                        quantidade: 1,
+                        prato: prato,
+                        value: value,
+                        id_restaurant: id_restaurant,
+                        isBebida: isBebida,
+                        table: table,
+                      });
+                    }
                   }
-                }
-              }}
-            >
-              <TextButton>Somente eu</TextButton>
-            </ButtonArea>
-          </BoxButton>
-        </BoxInfo>
+                }}
+              >
+                <TextButton>Somente eu</TextButton>
+              </ButtonArea>
+            </BoxButton>
+          </BoxInfo>
+        </ScrollView>
       );
     }
   };
 
-  const handleSnapToItem = (index) => {
-    setActiveSlide(index);
-    setActiveDotIndex(index);
-  };
+  // const handleSnapToItem = (index) => {
+  //   setActiveSlide(index);
+  //   setActiveDotIndex(index);
+  // };
 
-  const renderPagination = () => {
-    return (
-      <View style={styles.pagination}>
-        {data.map((_, index) => (
-          <TouchableOpacity
-            key={index}
-            style={[
-              styles.dot,
-              {
-                backgroundColor:
-                  index === activeDotIndex ? "#d9d9d9" : "#d9d9d9",
-                paddingRight: index === activeDotIndex ? 20 : 0,
-              },
-            ]}
-            onPress={() => {
-              carouselRef.current.snapToItem(index);
-              setActiveDotIndex(index);
-            }}
-          />
-        ))}
-      </View>
-    );
-  };
+  // const renderPagination = () => {
+  //   return (
+  //     <View style={styles.pagination}>
+  //       {data.map((_, index) => (
+  //         <TouchableOpacity
+  //           key={index}
+  //           style={[
+  //             styles.dot,
+  //             {
+  //               backgroundColor:
+  //                 index === activeDotIndex ? "#d9d9d9" : "#d9d9d9",
+  //               paddingRight: index === activeDotIndex ? 20 : 0,
+  //             },
+  //           ]}
+  //           onPress={() => {
+  //             carouselRef.current.snapToItem(index);
+  //             setActiveDotIndex(index);
+  //           }}
+  //         />
+  //       ))}
+  //     </View>
+  //   );
+  // };
+
+  // const carouselRef = useRef(null);
 
   return (
-    <ScrollView>
-      <Container style={{ minHeight: height - 155 }}>
-        <Carousel
-          ref={carouselRef}
-          data={data}
-          renderItem={renderItem}
-          sliderWidth={viewportWidth}
-          itemWidth={viewportWidth * 0.8}
-          onSnapToItem={handleSnapToItem}
-          enableSnap={true}
-          activeSlideAlignment={"center"}
-          removeClippedSubviews={false}
-          onScrollBeginDrag={() => setScrollEnabled(false)}
-          onScrollEndDrag={() => setScrollEnabled(true)}
-        />
-
-        <View style={styles.paginationContainer}>{renderPagination()}</View>
-        {/* <BoxInfo>
+    // <ScrollView>
+    // <SafeAreaView>
+    // <ScrollView>
+    <Container>
+      <Carousel
+        ref={carouselRef}
+        data={data}
+        renderItem={renderItem}
+        sliderWidth={viewportWidth}
+        itemWidth={viewportWidth}
+        onSnapToItem={(index) => setActiveIndex(index)}
+        autoplay={false}
+        scrollEnabled={false}
+      />
+      <Pagination
+        dotsLength={data.length}
+        activeDotIndex={activeIndex}
+        dotStyle={styles.dotStyle}
+        inactiveDotOpacity={0.4}
+        inactiveDotScale={0.6}
+        tappableDots={true}
+        carouselRef={carouselRef}
+      />
+      {/* <View style={styles.paginationContainer}>{renderPagination()}</View> */}
+      {/* <BoxInfo>
           <ImgGift source={require("../../../assets/images/gift.png")} />
           <Title>Convidar amigos para sua sala</Title>
           {/* <ViewEvent>
@@ -412,7 +472,7 @@ export default ({ route }) => {
               value={eventName}
             />
           </ViewEvent> */}
-        {/* <ViewMesa>
+      {/* <ViewMesa>
             <TitleEvent>Mesa</TitleEvent>
             <InputEvent
               inputMode="numeric"
@@ -421,13 +481,13 @@ export default ({ route }) => {
               value={table}
             />
           </ViewMesa> */}
-        {/* <InputArea> */}
-        {/* <IconArrow fill="#444" />
+      {/* <InputArea> */}
+      {/* <IconArrow fill="#444" />
             <Input
               placeholder="https://ui8.net/76738b"
               placeholderTextColor={"#010f07"}
             /> */}
-        {/* <SearchInput
+      {/* <SearchInput
               placeholder={"Digite o nome do convidado"}
               value={input}
               onChangeText={(t) => handleChange(t)}
@@ -466,7 +526,7 @@ export default ({ route }) => {
             <></>
           )}
         </BoxInfo> */}
-        {/* <InvitedPersonCard>
+      {/* <InvitedPersonCard>
           <InvitedPersonText>Pessoas Convidadas</InvitedPersonText>
           {convidados.length != 0 ? (
             convidados.map((c, index) => {
@@ -529,29 +589,47 @@ export default ({ route }) => {
             <TextButton>Somente eu</TextButton>
           </ButtonArea>
         </BoxButton> */}
-      </Container>
-    </ScrollView>
+    </Container>
+    //   </ScrollView>
+    // </SafeAreaView>
+    // </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  paginationContainer: {
-    position: "absolute",
-    bottom: 40,
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  pagination: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 16,
-  },
-  dot: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    marginHorizontal: 6,
+  // paginationContainer: {
+  //   position: "absolute",
+  //   bottom: 40,
+  //   width: "80%",
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  // },
+  // carouselContainer: {
+  //   flexGrow: 1,
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  // },
+  // carouselSlide: {
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  // },
+  // pagination: {
+  //   flexDirection: "row",
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  //   marginTop: 16,
+  // },
+  // dot: {
+  //   width: 10,
+  //   height: 10,
+  //   borderRadius: 5,
+  //   marginHorizontal: 6,
+  // },
+  dotStyle: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    marginHorizontal: 8,
+    backgroundColor: "#ed2024",
   },
 });
