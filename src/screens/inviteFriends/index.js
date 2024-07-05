@@ -94,6 +94,7 @@ export default ({ route }) => {
   const carouselRef = useRef(null);
   const [activeSlide, setActiveSlide] = useState(0);
   const [activeDotIndex, setActiveDotIndex] = useState(0);
+  const [scrollEnabled, setScrollEnabled] = useState(true);
 
   const { value, prato, id_restaurant, isBebida } = route.params;
   // const value = 30.0;
@@ -389,10 +390,14 @@ export default ({ route }) => {
           ref={carouselRef}
           data={data}
           renderItem={renderItem}
-          width={viewportWidth * 0.8}
           sliderWidth={viewportWidth}
           itemWidth={viewportWidth * 0.8}
           onSnapToItem={handleSnapToItem}
+          enableSnap={true}
+          activeSlideAlignment={"center"}
+          removeClippedSubviews={false}
+          onScrollBeginDrag={() => setScrollEnabled(false)}
+          onScrollEndDrag={() => setScrollEnabled(true)}
         />
 
         <View style={styles.paginationContainer}>{renderPagination()}</View>
