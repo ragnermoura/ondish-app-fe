@@ -32,7 +32,7 @@ export default function App() {
   setTimeout(() => {
     navigation.navigate("MainTab", {
       screen: "OrderInTheRestaurant",
-      params: { id: 1 },
+      params: { id: 1, sala: null, salaInfo: null },
     });
   }, 1000);
 

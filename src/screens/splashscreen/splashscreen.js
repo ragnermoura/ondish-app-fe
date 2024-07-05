@@ -27,9 +27,13 @@ export default () => {
           // passar o id do restaurante que recebe por rota ou por async storage para a rota do orderintherestaurant
 
           // criar a logica de cadastro do perfil junto do registrar e salvar no asyncStorage
-          navigation.navigate("Login");
+          // navigation.navigate("Login");
           // navigation.navigate("MainTab", { screen: "OrderInTheRestaurant" });
           // navigation.navigate("AddOrder");
+          navigation.navigate("Welcome");
+          // navigation.navigate("InviteFriends");
+          // navigation.navigate("WatingFriends");
+          // navigation.navigate("AceitarConvite");
         } else {
           navigation.reset({
             routes: [{ name: "MainTab" }],

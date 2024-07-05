@@ -17,6 +17,24 @@ export default () => {
 
   const [emailField, setEmailField] = useState("");
 
+  const handleVerficalEmail = () => {
+    if (emailField == "") {
+      alert("Preencha o campo do email!");
+    } else {
+      // api.getPerfil().then((res) => {
+      //   res.data.response.map((e) => {
+      //     if (e.email == emailField) {
+      //       //colocar a chamada da api para validar o codigo e ver como que vai disparar o email pra pessoa
+      //       navigation.navigate("VerificarEmail");
+      //     } else {
+      //       alert("Email não registrado!");
+      //     }
+      //   });
+      // });
+      navigation.navigate("VerificarEmail");
+    }
+  };
+
   return (
     <Container>
       <Title>Redefinir Palavra-passe</Title>
@@ -33,10 +51,7 @@ export default () => {
         />
 
         <View style={{ marginTop: 20 }}></View>
-        <Btn
-          text={"Redefinir senha"}
-          onPress={() => navigation.navigate("VerificarEmail")}
-        />
+        <Btn text={"Redefinir senha"} onPress={() => handleVerficalEmail()} />
       </InputArea>
     </Container>
   );

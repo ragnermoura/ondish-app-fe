@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components/native";
 import config from "../../../../assets/config.json";
 import ArrowBack from "../../../../assets/icons/iconBackRight.svg";
+import { Platform } from "react-native";
 
 export const Container = styled.SafeAreaView`
   background-color: white;
@@ -10,10 +11,14 @@ export const Container = styled.SafeAreaView`
 
 export const ImgBackground = styled.ImageBackground`
   resize-mode: cover;
+  height: 300px;
 `;
 
 export const Header = styled.View`
-  height: 290px;
+  position: absolute;
+  top: ${Platform.OS === "ios" ? "40px" : "45px"};
+  left: 20px;
+  z-index: 100;
 `;
 
 export const ButtonBack = styled.TouchableOpacity`
@@ -103,6 +108,14 @@ export const TitleOptions = styled.Text`
 `;
 
 export const RequiredCard = styled.View`
+  background-color: rgba(237, 32, 36, 0.5);
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: 5px;
+`;
+
+export const OpcionalCard = styled.View`
   background-color: #fcecd5;
   align-items: center;
   justify-content: center;
@@ -111,6 +124,12 @@ export const RequiredCard = styled.View`
 `;
 
 export const RequiredText = styled.Text`
+  font-size: 12px;
+  font-weight: 500;
+  color: #ed2024;
+`;
+
+export const OpcionalText = styled.Text`
   font-size: 12px;
   font-weight: 500;
   color: #ef9920;

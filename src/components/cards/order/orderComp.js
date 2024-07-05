@@ -6,7 +6,17 @@ import { useNavigation } from "@react-navigation/native";
 import { baseUrl } from "../../../../services/config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default ({ title, text, value, id_pratos, img, id_restaurant }) => {
+export default ({
+  title,
+  text,
+  value,
+  id_pratos,
+  img,
+  id_restaurant,
+  bebida,
+  sala,
+  salaInfo,
+}) => {
   const navigation = useNavigation();
 
   const checkToken = async () => {
@@ -15,12 +25,33 @@ export default ({ title, text, value, id_pratos, img, id_restaurant }) => {
       if (!token) {
         navigation.navigate("Login", { id_restaurant: id_restaurant });
       } else {
-        console.log(id_pratos);
-        navigation.navigate("InviteFriends", {
-          value: value,
-          prato: id_pratos,
-          id_restaurant: id_restaurant,
-        });
+        // console.log(id_pratos);
+        if (sala == null) {
+          navigation.navigate("InviteFriends", {
+            value: value,
+            prato: id_pratos,
+            id_restaurant: id_restaurant,
+            isBebida: bebida,
+          });
+        } else {
+          if (salaInfo == "convidado") {
+            navigation.navigate("AddOrder", {
+              value: value,
+              prato: id_pratos,
+              id_restaurant: id_restaurant,
+              isBebida: bebida,
+              sala: sala,
+            });
+          }
+          // ver se e esse caminho mesmo
+          // navigation.navigate("WatingFriends", {
+          //   value: value,
+          //   prato: id_pratos,
+          //   id_restaurant: id_restaurant,
+          //   isBebida: bebida,
+          //   sala: sala,
+          // });
+        }
       }
     } catch (error) {
       console.error("Erro ao buscar o token", error);

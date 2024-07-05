@@ -1,11 +1,15 @@
 import React from "react";
 import styled from "styled-components/native";
 import config from "../../../assets/config.json";
+import { Dimensions } from "react-native";
+
+const { height } = Dimensions.get("window");
 
 export const Container = styled.SafeAreaView`
   padding: 5%;
   background-color: white;
   flex: 1;
+  min-height: ${height - 70}px;
 `;
 
 export const Title = styled.Text`
@@ -19,6 +23,7 @@ export const UserCard = styled.View`
   flex-direction: row;
   margin-top: 15px;
   margin-bottom: 5px;
+  align-items: center;
 `;
 
 export const UserImg = styled.Image`
@@ -126,4 +131,14 @@ export const ChooseMethodText = styled.Text`
   font-weight: 500;
   color: ${config.colors.black};
   text-align: left;
+`;
+
+export const IconCards = styled.View`
+  padding: 2px;
+  border-width: 1px;
+  border-radius: 30px;
+  margin-right: 8px;
+  border-color: #a9a9a9;
+  align-items: center;
+  justify-content: center;
 `;

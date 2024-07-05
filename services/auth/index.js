@@ -41,8 +41,8 @@ export default {
           email: emailField,
           senha: passwordField,
           avatar: "default-avatar.png",
-          id_nivel: 3,
-          id_status: 1,
+          // id_nivel: 3,
+          // id_status: 1,
           // telefone: telefoneField,
         },
         {
@@ -180,7 +180,7 @@ export default {
 
   getBebida: async (id) => {
     try {
-      const response = await http.get(`/bebidas/buscar/${id}`, {
+      const response = await http.get(`/bebidas/restaurante/${id}`, {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -217,6 +217,28 @@ export default {
     }
   },
 
+  sendValidationCodeEmail: async (code) => {
+    try {
+      const response = await http.post(
+        `/`,
+        {
+          code: code,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      return error.response || error.message || error;
+    }
+  },
+
   getSala: async () => {
     try {
       const response = await http.get(`/`, {
@@ -233,29 +255,104 @@ export default {
     }
   },
 
-  sendConvidado: async (arrayConvidados, id_anfitriao) => {
+  sendConvidado: async (
+    arrayConvidados,
+    id_anfitriao,
+    eventName,
+    id_restaurant
+  ) => {
     console.log(arrayConvidados);
-    arrayConvidados.map(async (c) => {
-      try {
-        const response = await http.post(
-          `/sala/nova-sala`,
-          {
-            id_usuario_anfitriao: id_anfitriao,
-            id_usuario_convidado: c.id_user,
+    try {
+      const response = await http.post(
+        `/sala/nova-sala`,
+        {
+          id_usuario_anfitriao: id_anfitriao,
+          status: "aberta",
+          convidados: arrayConvidados.map((convidado) => {
+            return {
+              id_usuario_convidado: convidado.id_user,
+              status: "pendente",
+            };
+          }),
+          nome_sala: eventName,
+          id_restaurante: id_restaurant,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
           },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-              "Access-Control-Allow-Headers": "*",
-              "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
-            },
-          }
-        );
-        return response;
-      } catch (error) {
-        return error.response || error.message || error;
-      }
-    });
+        }
+      );
+      return response;
+    } catch (error) {
+      return error.response || error.message || error;
+    }
+  },
+
+  getUsers: async () => {
+    try {
+      const response = await http.get(`/usuario`, {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Headers": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+        },
+      });
+      return response;
+    } catch (error) {
+      return error.response || error.message || error;
+    }
+  },
+
+  verificaConvidado: async (id) => {
+    try {
+      const response = await http.get(`/sala/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Headers": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+        },
+      });
+      return response;
+    } catch (error) {
+      return error.response || error.message || error;
+    }
+  },
+
+  cancelSala: async (id) => {
+    try {
+      const response = await http.delete(`/sala/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Headers": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET,DELETE",
+        },
+      });
+      return response;
+    } catch (error) {
+      return error.response || error.message || error;
+    }
+  },
+
+  getTable: async (id) => {
+    try {
+      const response = await http.get(`/mesa/restaurante/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Headers": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+        },
+      });
+      return response;
+    } catch (error) {
+      return error.response || error.message || error;
+    }
   },
 };

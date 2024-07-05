@@ -26,9 +26,9 @@ export default ({ route }) => {
   const [bebidasRes, setBebidasRes] = useState(null);
 
   const navigation = useNavigation();
-  // const { id } = route.params;
+  const { id, sala, salaInfo } = route.params;
   // console.log(id);
-  const id = 1;
+  // const id = 1;
 
   useEffect(() => {
     api.getRestaurant(id).then((res) => {
@@ -40,7 +40,7 @@ export default ({ route }) => {
       } else {
         if (res) {
           // console.log(res);
-          setInfoRes(res.data);
+          setInfoRes(res.data[0]);
         } else {
           return;
         }
@@ -50,11 +50,13 @@ export default ({ route }) => {
     api.getPlates(id).then((res) => {
       // console.log(res.status, res.data);
       // console.log(res.status, "Pratos");
+      // console.log(res);
       if (res.status === 500) {
         // alert("Erro ao buscar bebidas");
         // console.log(res.status, res.data);
       } else {
         if (res) {
+          // console.log("teste");
           setPlatesRes(res.data);
         } else {
           return;
@@ -83,17 +85,35 @@ export default ({ route }) => {
 
   if (infoRes) {
     // console.log(platesRes);
-    // const avaliation = Number(infoRes.avaliacoes[0].avaliacao);
+    // console.log(infoRes);
+    let avaliation = 0;
+    let avaliationValue = 0;
+    if (infoRes.avaliacoes.length == 0) {
+      return;
+    } else {
+      infoRes.avaliacoes.map((avaliacao) => {
+        avaliationValue += avaliacao.avaliacao;
+        // console.log(avaliacao.avaliacao);
+      });
+      avaliationValue = (avaliationValue / infoRes.avaliacoes.length).toFixed(
+        1
+      );
+      // console.log(avaliationValue, infoRes.avaliacoes.length);
+    }
     return (
       <ScrollView>
         <Container>
           <NameTitle>{infoRes.nome_restaurante}</NameTitle>
           <SubTitle>
-            {infoRes.cozinha_restaurante != undefined
-              ? infoRes.cozinha_restaurante.map((e) => {
+            {platesRes != undefined
+              ? platesRes.map((e) => {
                   return (
-                    <Fragment key={e.id_cozinha_restaurante}>
-                      <SubTitleText>{e.nome_cozinha}</SubTitleText>
+                    <Fragment
+                      key={e.cozinha_restaurante.id_cozinha_restaurante}
+                    >
+                      <SubTitleText>
+                        {e.cozinha_restaurante.nome_cozinha}
+                      </SubTitleText>
                       <PointSubTitle
                         source={require("../../../../assets/icons/iconPoint.png")}
                       />
@@ -102,13 +122,14 @@ export default ({ route }) => {
                 })
               : null}
           </SubTitle>
-          {/* <Rating>
-            <RatingNumber>{avaliation.toFixed(1)}</RatingNumber>
+          <Rating>
+            <RatingNumber>{avaliationValue}</RatingNumber>
             <RatingStar />
             <RatingAvaliation>
-              {infoRes.avaliacoes.length}+ Avaliações
+              {infoRes.avaliacoes.length == 0 ? 0 : infoRes.avaliacoes.length}+
+              Avaliações
             </RatingAvaliation>
-          </Rating> */}
+          </Rating>
           {/* <ThirdButton
             text={"Convidar amigos"}
             onPress={() => navigation.navigate("InviteFriends")}
@@ -129,6 +150,9 @@ export default ({ route }) => {
                           key={e.id_pratos}
                           img={e.fotos[0].foto}
                           id_restaurant={e.id_restaurante}
+                          bebida={false}
+                          sala={sala == null ? null : sala}
+                          salaInfo={sala == null ? null : salaInfo}
                         />
                       );
                     }
@@ -149,6 +173,9 @@ export default ({ route }) => {
                           key={e.id_pratos}
                           img={e.fotos[0].foto}
                           id_restaurant={e.id_restaurante}
+                          bebida={false}
+                          sala={sala == null ? null : sala}
+                          salaInfo={sala == null ? null : salaInfo}
                         />
                       );
                     }
@@ -157,19 +184,25 @@ export default ({ route }) => {
             </ListOrder>
             <TitleOptions>Bebidas</TitleOptions>
             <ListOrder>
-              {/* {bebidasRes != undefined
+              {bebidasRes != undefined
                 ? bebidasRes.map((e) => {
+                    console.log("esta e a sala", sala);
                     return (
                       <Order
                         title={e.titulo}
                         text={e.descricao}
                         value={e.valor}
-                        key={e.id_pratos}
-                        img={e.fotos[0].foto}
+                        id_pratos={e.id_bebida}
+                        key={e.id_bebida}
+                        img={e.fotos.length == 0 ? null : e.fotos[0].foto}
+                        id_restaurant={e.id_restaurante}
+                        bebida={true}
+                        sala={sala == null ? null : sala}
+                        salaInfo={sala == null ? null : salaInfo}
                       />
                     );
                   })
-                : null} */}
+                : null}
             </ListOrder>
           </OrderCard>
         </Container>

@@ -18,6 +18,8 @@ import {
   TextButton,
   ViewMargin,
   IconCard,
+  TextMesa,
+  ViewMesa,
 } from "./styles";
 import {
   Image,
@@ -34,6 +36,7 @@ import MainButton from "../../components/buttons/mainButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "../../../services/auth/index";
 import IconUser from "../../../assets/icons/profile.svg";
+import { baseUrl } from "../../../services/config";
 
 export default ({ route }) => {
   const [subTotal, setSubTotal] = useState(29.4);
@@ -48,7 +51,7 @@ export default ({ route }) => {
     setPedido(name, value, opcao1, opcao2, id_restaurant);
   };
 
-  const { quantidade } = route.params;
+  const { quantidade, sala, mesa } = route.params;
 
   useEffect(() => {
     const getObject = async (key) => {
@@ -74,7 +77,7 @@ export default ({ route }) => {
     if (pedido != null) {
       api.getRestaurant(pedido.id_restaurant).then((res) => {
         if (res) {
-          setInfoRes(res.data);
+          setInfoRes(res.data[0]);
         } else {
           return;
         }
@@ -82,8 +85,14 @@ export default ({ route }) => {
       setSubTotal(pedido.value);
     }
   }, [pedido]);
-  // continuar essa logica e terminar essa pagina e depois concluir as proximas paginas
-  // console.log(pedido, quantidade, infoRes);
+
+  const handleCheckout = () => {
+    if (quantidade == 1) {
+      navigation.navigate("CheckoutFinal", { quantidade: 1 });
+    } else {
+      navigation.navigate("CheckoutFinal", { quantidade: quantidade });
+    }
+  };
 
   if (infoRes) {
     return (
@@ -113,7 +122,17 @@ export default ({ route }) => {
             </InfoText>
             <InfoText>
               {/* criar um filtro que mostra quais mesas estao disponiveis com base no que vem da api  */}
-              Mesa: <InfoTextHighlighted>28</InfoTextHighlighted>
+              Mesa: <InfoTextHighlighted>{mesa.numero}</InfoTextHighlighted>{" "}
+              <ViewMesa
+                style={{
+                  backgroundColor:
+                    mesa.localizacao === 1 ? "#BFD9FE" : "#ed2024",
+                }}
+              >
+                <TextMesa>
+                  {mesa.localizacao === 1 ? "dentro" : "fora"}
+                </TextMesa>
+              </ViewMesa>
             </InfoText>
           </InfoCard>
           <Title>Pedidos na mesa</Title>
@@ -126,7 +145,9 @@ export default ({ route }) => {
                   </IconCard>
                 ) : (
                   <PerfilImg
-                    source={require("../../../assets/images/perfilImg1.png")}
+                    source={{
+                      uri: `${baseUrl}/public/${perfil.perfil.avatar}`,
+                    }}
                   />
                 )}
                 <PerfilName>
@@ -137,7 +158,11 @@ export default ({ route }) => {
                 <OrderCheckout
                   number={1}
                   title={pedido.name}
-                  text={`${pedido.opcao1}, ${pedido.opcao2}`}
+                  text={
+                    pedido.opcao2 == "" && pedido.opcao1 == ""
+                      ? ""
+                      : `${pedido.opcao1}, ${pedido.opcao2}`
+                  }
                   value={`${pedido.value}€`}
                 />
               </CardOrder>
@@ -146,18 +171,30 @@ export default ({ route }) => {
             <View>
               <View>
                 <PerfilCard>
-                  <PerfilImg
-                    source={require("../../../assets/images/perfilImg1.png")}
-                  />
-                  <PerfilName>Susie Bridges</PerfilName>
+                  {perfil.perfil.avatar == "/avatar/default-avatar.png" ? (
+                    <IconCard>
+                      <IconUser />
+                    </IconCard>
+                  ) : (
+                    <PerfilImg
+                      source={{
+                        uri: `${baseUrl}/public/${perfil.perfil.avatar}`,
+                      }}
+                    />
+                  )}
+                  <PerfilName>
+                    {perfil.perfil.nome} {perfil.perfil.sobrenome}
+                  </PerfilName>
                 </PerfilCard>
                 <CardOrder>
-                  {/* perguntar se esse number do card e o número da quantidade de pratos desse pedido */}
-                  {/* um exemplo a quantidade de peixes andala que essa mesma pessoa pediu */}
                   <OrderCheckout
                     number={1}
                     title={pedido.name}
-                    text={`${pedido.opcao1}, ${pedido.opcao2}`}
+                    text={
+                      pedido.opcao2 == "" && pedido.opcao1 == ""
+                        ? ""
+                        : `${pedido.opcao1}, ${pedido.opcao2}`
+                    }
                     value={`${pedido.value}€`}
                   />
                 </CardOrder>
@@ -212,8 +249,8 @@ export default ({ route }) => {
           <ViewMargin></ViewMargin>
 
           <MainButton
-            text={"checkout"}
-            onPress={() => navigation.navigate("SplitAccount")}
+            text={"Acompanhar Pedido"}
+            onPress={() => handleCheckout()}
           />
         </Container>
       </ScrollView>

@@ -17,15 +17,16 @@ export const BoxInfo = styled.View`
 `;
 
 export const ImgGift = styled.Image`
-  margin: 30px 30% 15px 0;
+  margin: -15px 0 0 0;
 `;
+// tava 30px no lugar do -15px
 
 export const Title = styled.Text`
   width: 70%;
   text-align: center;
   font-size: 24px;
   font-weight: bold;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 `;
 
 export const InputArea = styled.View`
@@ -101,6 +102,7 @@ export const ImgFriend = styled.Image`
   margin-right: 10px;
   width: 30px;
   height: 30px;
+  border-radius: 30px;
 `;
 
 export const TextFriend = styled.Text`
@@ -128,4 +130,29 @@ export const InvitedPersonText = styled.Text`
   font-weight: 500;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
+`;
+
+export const TitleEvent = styled.Text`
+  color: #000;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 5px;
+`;
+
+export const InputEvent = styled.TextInput`
+  width: 100%;
+  background-color: ${config.colors.input};
+  height: 50px;
+  border-radius: 10px;
+  padding-left: 20px;
+`;
+
+export const ViewEvent = styled.View`
+  margin-bottom: 10px;
+  width: 90%;
+`;
+
+export const ViewMesa = styled.View`
+  margin-bottom: 20px;
+  width: 90%;
 `;

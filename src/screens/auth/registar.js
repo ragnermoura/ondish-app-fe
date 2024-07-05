@@ -92,12 +92,14 @@ export default () => {
 
   return (
     <Container>
-      <Subtext>
+      {/* <Subtext>
         Digite seu nome, e-mail e senha para se inscrever.
         <Linked onPress={handleLogin}>
           <SpanText> Ja tem uma conta?</SpanText>
         </Linked>
-      </Subtext>
+      </Subtext> */}
+
+      <View style={{ marginTop: 70 }}></View>
 
       <InputArea>
         <InputSimple>
@@ -121,7 +123,6 @@ export default () => {
           <SigInput
             placeholder="Endereço de e-mail"
             value={emailField}
-            isEmail={true}
             onChangeText={(t) =>
               // setEmailField(t.charAt(0).toLowerCase() + t.slice(1))
               handleEmailChange(t)
@@ -149,9 +150,11 @@ export default () => {
           />
         </InputPassword>
 
-        <View style={{ marginTop: 20 }}></View>
+        <View style={{ marginTop: 60 }}></View>
 
         <Btn text={"Registar"} onPress={handleRegister} isLoading={isLoading} />
+
+        <View style={{ marginTop: 20 }}></View>
 
         <Text
           style={{
@@ -165,9 +168,9 @@ export default () => {
           de Privacidade.
         </Text>
 
-        <TextSub>Ou</TextSub>
+        {/* <TextSub>Ou</TextSub>
         <BtnFB text={"Registar com Facebook"} />
-        <BtnGoogle text={"Registar com Google"} />
+        <BtnGoogle text={"Registar com Google"} /> */}
       </InputArea>
 
       <Modal

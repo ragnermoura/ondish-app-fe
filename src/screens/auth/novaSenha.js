@@ -14,7 +14,7 @@ export default () => {
       <InputArea>
         <InputPassword>
           <SigInput
-            placeholder="Nova senha"
+            placeholder="NOVA PALAVRA-PASSE"
             value={passwordField}
             onChangeText={(t) => setPasswordField(t)}
             isPassword={true}
@@ -23,7 +23,7 @@ export default () => {
         <View style={{ marginBottom: 5 }}></View>
         <InputPassword>
           <SigInput
-            placeholder="Confirmar a senha"
+            placeholder="CONFIRMAR A PALAVRA-PASSE"
             value={confirmPasswordField}
             onChangeText={(t) => setConfirmPasswordField(t)}
             isPassword={true}

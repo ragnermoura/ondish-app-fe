@@ -28,6 +28,7 @@ import PaymentMethod from "../screens/paymentMethod";
 import Cards from "../screens/cards";
 import AddCards from "../screens/addCards";
 import WatingFriends from "../screens/watingFriends/watingFriends";
+import AceitarConvite from "../screens/auth/aceitarConvite";
 
 const Stack = createStackNavigator();
 
@@ -50,6 +51,13 @@ export default () => (
       component={Login}
       options={{
         header: () => <Header title={"Login"} />,
+      }}
+    />
+    <Stack.Screen
+      name="AceitarConvite"
+      component={AceitarConvite}
+      options={{
+        headerShown: false,
       }}
     />
     <Stack.Screen
@@ -77,7 +85,7 @@ export default () => (
       name="Registar"
       component={Registar}
       options={{
-        header: () => <Header title={"Registar"} />,
+        header: () => <Header title={"Criar Conta"} />,
       }}
     />
 

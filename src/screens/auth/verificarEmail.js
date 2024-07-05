@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useContext, StyleSheet } from "react";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  StyleSheet,
+  useRef,
+} from "react";
 import { useNavigation } from "@react-navigation/native";
 import {
   Container,
@@ -19,6 +25,11 @@ export default ({}) => {
   const [input2, setInput2] = useState(null);
   const [input3, setInput3] = useState(null);
   const [input4, setInput4] = useState(null);
+
+  const input1Ref = useRef(null);
+  const input2Ref = useRef(null);
+  const input3Ref = useRef(null);
+  const input4Ref = useRef(null);
 
   const navigation = useNavigation();
 
@@ -47,24 +58,36 @@ export default ({}) => {
           placeholder="4"
           value={input1}
           onChangeText={(t) => preencherInput(t, setInput1)}
+          onSubmit={() => input2Ref.current.focus()}
+          keyNext={"next"}
+          ref={input1Ref}
         />
 
         <VerifyInput
           placeholder="4"
           value={input2}
           onChangeText={(t) => preencherInput(t, setInput2)}
+          onSubmit={() => input3Ref.current.focus()}
+          keyNext={"next"}
+          ref={input2Ref}
         />
 
         <VerifyInput
           placeholder="4"
           value={input3}
           onChangeText={(t) => preencherInput(t, setInput3)}
+          onSubmit={() => input4Ref.current.focus()}
+          keyNext={"next"}
+          ref={input3Ref}
         />
 
         <VerifyInput
           placeholder="4"
           value={input4}
           onChangeText={(t) => preencherInput(t, setInput4)}
+          onSubmit={() => input4Ref.current.blur()}
+          keyNext={"done"}
+          ref={input4Ref}
         />
       </View>
 

@@ -111,3 +111,16 @@ export const IconCard = styled.View`
   align-items: center;
   justify-content: center;
 `;
+
+export const ViewMesa = styled.View`
+  padding: 10px 20px;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const TextMesa = styled.Text`
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+`;

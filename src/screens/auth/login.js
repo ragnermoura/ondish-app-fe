@@ -16,6 +16,8 @@ import {
   TextSimpleQr,
   TextSimpleArea,
   Spacing,
+  Esqueceste,
+  TextOr,
 } from "./styles";
 import SigInput from "../../components/input/mainInput";
 import Btn from "../../components/buttons/mainButton";
@@ -23,6 +25,8 @@ import BtnFB from "../../components/buttons/faceButton";
 import BtnGoogle from "../../components/buttons/googleButton";
 import api from "../../../services/auth/index";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { View } from "react-native";
+// import BtnFB from "../../components/buttons/faceButton";
 
 export default ({ route }) => {
   const navigation = useNavigation();
@@ -43,7 +47,7 @@ export default ({ route }) => {
       api.login(emailField, passwordField).then((res) => {
         if (res) {
           if (res.data) {
-            // console.log(res.data);
+            console.log(res.status, res.data);
             if (res.status === 200) {
               // alert("Sucesso", "Login efetuado com sucesso");
               const clearStorage = async () => {
@@ -96,23 +100,59 @@ export default ({ route }) => {
               // };
               // getObject("perfil").then((perfil) => console.log(perfil));
 
-              if (restaurant) {
-                navigation.navigate("OrderInTheRestaurant", {
-                  id: restaurant,
-                });
-              } else {
+              // if (res.data.role == "usuario") {
+              if (res.data.role == "usuario") {
+                if (restaurant) {
+                  console.log(restaurant);
+                  // navigation.navigate("MainTab", {
+                  //   screen: "OrderInTheRestaurant",
+                  //   params: { id: restaurant },
+                  // });
+                  navigation.reset({
+                    routes: [
+                      {
+                        name: "MainTab",
+                        state: {
+                          routes: [
+                            {
+                              name: "OrderInTheRestaurant",
+                              params: {
+                                id: restaurant,
+                                sala: null,
+                                salaInfo: null,
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  });
+                } else {
+                  navigation.reset({
+                    routes: [{ name: "MainTab" }],
+                  });
+                }
+              } else if (res.data.role == "convidado") {
                 navigation.reset({
-                  routes: [{ name: "MainTab" }],
+                  routes: [
+                    {
+                      name: "AceitarConvite",
+                      params: {
+                        sala: res.data.salaId,
+                        salaInfo: res.data.role,
+                      },
+                    },
+                  ],
                 });
               }
             } else {
-              alert("Erro 1", res.data.message);
+              alert(res.data.message);
             }
           } else {
-            alert("Erro 2", res.message);
+            alert(res.message);
           }
         } else {
-          alert("Erro", "Erro ao efetuar login");
+          alert("Erro ao efetuar login");
         }
       });
     }
@@ -120,32 +160,32 @@ export default ({ route }) => {
 
   const handleRegister = () => {
     // caso queira fazer o login assim que se registrar entao passar o id do restaurante por parametro na rota caso precise
-    navigation.reset({
-      routes: [{ name: "Registar" }],
-    });
+    navigation.navigate("Registar");
   };
 
   const handleQrcode = () => {
-    navigation.reset({
-      routes: [{ name: "QrcodeScreen" }],
-    });
+    if (restaurant != null) {
+      alert("Você ja scanneou o Cardápio!");
+    } else {
+      navigation.reset({
+        routes: [{ name: "QrcodeScreen" }],
+      });
+    }
   };
 
   const handleRecovery = () => {
-    navigation.reset({
-      routes: [{ name: "Redefinir" }],
-    });
+    navigation.navigate("Redefinir");
   };
 
   return (
     <Container>
-      <Title>Ondish</Title>
-      <Subtext>
+      {/* <Title>Ondish</Title> */}
+      {/* <Subtext>
         Digite seu número de telefone ou e-mail para entrar ou
         <Linked onPress={handleRegister}>
           <SpanText> Criar nova conta.</SpanText>
         </Linked>
-      </Subtext>
+      </Subtext> */}
       <Spacing />
       <InputArea>
         <SigInput
@@ -165,19 +205,46 @@ export default ({ route }) => {
         </InputPassword>
 
         <ViewClick onPress={handleRecovery}>
-          <TextSimple>Esqueceste a palavra-passe?</TextSimple>
+          <Esqueceste>Esqueceste a palavra-passe?</Esqueceste>
         </ViewClick>
 
+        <View style={{ marginTop: 20 }}></View>
         <Btn text={"Entrar"} onPress={handleEntrar} />
-        <TextSub>Ou</TextSub>
 
-        <BtnGoogle text={"Continuar com Google"} />
+        <View
+          style={{
+            width: "100%",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginBottom: 25,
+            marginTop: 10,
+          }}
+        >
+          <View
+            style={{ width: "42%", backgroundColor: "#dedede", height: 1 }}
+          ></View>
+          <TextOr>OU</TextOr>
+          <View
+            style={{ width: "42%", backgroundColor: "#dedede", height: 1 }}
+          ></View>
+        </View>
+
+        {/* <BtnFB text={"Continuar com FaceBook"} />
+        <BtnGoogle text={"Continuar com Google"} /> */}
         <CustomButtonQrcode onPress={handleQrcode}>
           <Iconqrcode />
           <TextSimpleArea>
             <TextSimpleQr>Leitura do cardápio</TextSimpleQr>
           </TextSimpleArea>
         </CustomButtonQrcode>
+        <View style={{ marginBottom: 40 }}></View>
+        <View style={{ alignSelf: "center", flexDirection: "row" }}>
+          <Subtext>Ainda não tem conta?</Subtext>
+          <Linked onPress={handleRegister}>
+            <SpanText> Criar nova conta.</SpanText>
+          </Linked>
+        </View>
       </InputArea>
     </Container>
   );

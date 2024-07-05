@@ -34,14 +34,16 @@ export const Label = styled.Text`
 `;
 
 export const Subtext = styled.Text`
-  font-size: 16px;
+  font-size: 17px;
+  font-weight: 400;
   color: #868686;
   max-width: 80%;
   margin-bottom: 20px;
   align-items: center;
 `;
 export const SpanText = styled.Text`
-  font-size: 16px;
+  font-size: 17px;
+  font-weight: 400;
   color: ${config.colors.red};
   margin-bottom: -5px;
 `;
@@ -59,6 +61,14 @@ export const TextSimple = styled.Text`
   margin-bottom: 20px;
   margin-top: 20px;
 `;
+export const Esqueceste = styled.Text`
+  color: #ed2024;
+  text-align: center;
+  font-size: 17px;
+  font-weight: medium;
+  margin-bottom: 20px;
+  margin-top: 20px;
+`;
 
 export const TextSub = styled.Text`
   color: #010f07;
@@ -67,9 +77,18 @@ export const TextSub = styled.Text`
   margin-bottom: 20px;
 `;
 
+export const TextOr = styled.Text`
+  color: #090a0a;
+  text-align: center;
+  font-weight: medium;
+  font-size: 18px;
+`;
+
 export const Linked = styled.TouchableOpacity``;
 
-export const ViewClick = styled.TouchableOpacity``;
+export const ViewClick = styled.TouchableOpacity`
+  margin-top: 20px;
+`;
 
 export const InputArea = styled.View`
   margin-top: 2%;

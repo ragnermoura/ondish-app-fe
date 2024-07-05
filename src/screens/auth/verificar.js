@@ -54,6 +54,37 @@ export default ({ route }) => {
     });
   };
 
+  const handleReenviar = () => {
+    const getData = async (key) => {
+      try {
+        const jsonValue = await AsyncStorage.getItem(key);
+        return JSON.parse(jsonValue);
+      } catch (error) {
+        console.error("Error storing data", error);
+      }
+    };
+    getData("registrar").then((value) => {
+      api
+        .register(
+          value.email,
+          value.password,
+          value.nome,
+          value.apelido
+          // telemovelField
+        )
+        .then((res) => {
+          console.log(res);
+          // if (res.status === 202) {
+          //   const id_usuario = res.data.usuarioCriado.id_user;
+          //   setIsLoading(true);
+          //   setTimeout(() => {
+          //     navigation.navigate("Verificar", { id: id_usuario });
+          //   }, 3000);
+          // }
+        });
+    });
+  };
+
   useEffect(() => {
     const getData = async (key) => {
       try {
@@ -122,7 +153,7 @@ export default ({ route }) => {
       <View style={{ marginTop: 20 }}></View>
       <Btn text={"Continuar"} onPress={() => handleValidation()} />
 
-      <ViewClick>
+      <ViewClick onPress={() => handleReenviar()}>
         <TextSimple>
           Não recebeu o código? <SpanText2>Enviar novamente</SpanText2>
         </TextSimple>
